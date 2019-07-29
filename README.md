@@ -1,6 +1,6 @@
-# GraphQL Code Generator #
+# GraphQL Codegen - Gradle plugin #
 
-[![Build Status](https://travis-ci.com/kobylynskyi/graphql-code-generator.svg?branch=master)](https://travis-ci.com/kobylynskyi/graphql-code-generator)
+[![Build Status](https://travis-ci.com/kobylynskyi/graphql-codegen-gradle-plugin.svg?branch=master)](https://travis-ci.com/kobylynskyi/graphql-codegen-gradle-plugin)
 
 Make your GraphQL application schema-driven!
 
