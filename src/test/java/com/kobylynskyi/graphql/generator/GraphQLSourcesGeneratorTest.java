@@ -1,12 +1,12 @@
 package com.kobylynskyi.graphql.generator;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 class GraphQLSourcesGeneratorTest {
 
@@ -16,7 +16,7 @@ class GraphQLSourcesGeneratorTest {
     }
 
     @Test
-    void addition() throws Exception {
+    void addition() {
         File outputDir = new File("build/generated");
         generator.setOutputDir(outputDir);
         generator.setModelPackage("com.kobylynskyi.graphql.test1");
@@ -25,7 +25,11 @@ class GraphQLSourcesGeneratorTest {
         generator.generate();
 
         File[] generatedFiles = outputDir.listFiles();
-        assertEquals(5, generatedFiles.length);
+        assertEquals(4, generatedFiles.length);
+        assertEquals("CreateEventMutation.java", generatedFiles[0].getName());
+        assertEquals("EventByIdQuery.java", generatedFiles[1].getName());
+        assertEquals("EventsByCategoryAndStatusQuery.java", generatedFiles[2].getName());
+        assertEquals("VersionQuery.java", generatedFiles[3].getName());
     }
 
 }

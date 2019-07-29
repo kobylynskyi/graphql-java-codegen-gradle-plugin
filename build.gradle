@@ -15,6 +15,7 @@ dependencies {
 
     compile 'org.freemarker:freemarker:2.3.28'
     compile 'com.graphql-java:graphql-java:13.0'
+    compile 'org.projectlombok:lombok:1.18.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'

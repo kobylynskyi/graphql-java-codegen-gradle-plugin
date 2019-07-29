@@ -1,5 +1,10 @@
-package com.kobylynskyi.graphql.generator;
+package com.kobylynskyi.graphql.generator.model;
 
+/**
+ * Freemarker data model field names
+ *
+ * @author kobylynskyi
+ */
 public final class DataModelFields {
 
     public static final String PACKAGE = "package";

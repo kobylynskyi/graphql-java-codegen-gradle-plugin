@@ -12,7 +12,7 @@ type Query {
     version: String
 
     # List of events of a specified category.
-    eventsByCategory(categoryId: ID!): [Event]
+    eventsByCategoryAndStatus(categoryId: ID!, status: EventStatus): [Event]
 
     # Single event by ID.
     eventById(id: ID!): Event

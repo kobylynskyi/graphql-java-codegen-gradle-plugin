@@ -1,11 +1,20 @@
 package com.kobylynskyi.graphql.generator;
 
-import org.gradle.api.DefaultTask;
-import org.gradle.api.tasks.TaskAction;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.io.File;
 import java.util.List;
 
+import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.TaskAction;
+
+/**
+ * Gradle task for GraphQL code generation
+ *
+ * @author kobylynskyi
+ */
+@Getter
+@Setter
 public class GraphQLSourcesGeneratorTask extends DefaultTask {
 
     private List<File> graphqlSchemas;
@@ -21,19 +30,4 @@ public class GraphQLSourcesGeneratorTask extends DefaultTask {
         graphQLSourcesGenerator.generate();
     }
 
-    public List<File> getGraphqlSchemas() {
-        return graphqlSchemas;
-    }
-
-    public void setGraphqlSchemas(List<File> graphqlSchemas) {
-        this.graphqlSchemas = graphqlSchemas;
-    }
-
-    public File getOutputDir() {
-        return outputDir;
-    }
-
-    public void setOutputDir(File outputDir) {
-        this.outputDir = outputDir;
-    }
 }
