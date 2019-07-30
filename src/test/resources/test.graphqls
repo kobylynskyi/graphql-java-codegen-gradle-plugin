@@ -37,6 +37,16 @@ type Event {
     rating: Int
 }
 
+# An event property have all possible types
+type EventProperty {
+    floatVal: Float
+    booleanVal: Boolean
+    intVal: Int
+    stringVal: String
+    child: [EventProperty]
+    parent: Event
+}
+
 # Custom DateTime scalar
 # Format: yyyy-MM-dd'T'HH:mm:ssZ
 scalar DateTime

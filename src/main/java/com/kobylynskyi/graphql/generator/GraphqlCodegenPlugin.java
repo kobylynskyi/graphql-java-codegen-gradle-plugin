@@ -8,11 +8,11 @@ import org.gradle.api.Project;
  *
  * @author kobylynskyi
  */
-public class GraphQLSourcesGeneratorPlugin implements Plugin<Project> {
+public class GraphqlCodegenPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.getTasks().create("generateGraphQLClassesTask", GraphQLSourcesGeneratorTask.class);
+        project.getTasks().create("graphqlCodegenTask", GraphqlCodegenTask.class);
     }
 
 }

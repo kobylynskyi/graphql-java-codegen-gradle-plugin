@@ -33,10 +33,18 @@ public final class Utils {
         }
     }
 
-    public static String getFileContent(File file) {
+    public static String getResourceContent(File file) {
         try {
             URL resource = Utils.class.getClassLoader().getResource(file.getPath());
             return new String(Files.readAllBytes(Paths.get(resource.toURI())));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String getFileContent(File file) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(file.toURI())));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
