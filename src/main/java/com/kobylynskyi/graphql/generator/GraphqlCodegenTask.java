@@ -24,11 +24,7 @@ public class GraphqlCodegenTask extends DefaultTask {
 
     @TaskAction
     public void generate() {
-        GraphqlCodegen graphQLSourcesGenerator = new GraphqlCodegen();
-        graphQLSourcesGenerator.setSchemas(graphqlSchemas);
-        graphQLSourcesGenerator.setOutputDir(outputDir);
-        graphQLSourcesGenerator.setMappingConfig(mappingConfig);
-        graphQLSourcesGenerator.generate();
+        new GraphqlCodegen(graphqlSchemas, outputDir, mappingConfig).generate();
     }
 
 }

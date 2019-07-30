@@ -37,8 +37,16 @@ class GraphqlCodegen {
     private File outputDir;
     private MappingConfig mappingConfig;
 
+    private File classesOutputDir;
+
+    GraphqlCodegen(List<File> schemas, File outputDir, MappingConfig mappingConfig) {
+        this.schemas = schemas;
+        this.outputDir = outputDir;
+        this.mappingConfig = mappingConfig;
+    }
+
     void generate() {
-        prepareOutputDir();
+        classesOutputDir = prepareOutputDir(outputDir, mappingConfig);
         List<Document> graphqlDocuments = schemas.stream().map(GraphqlDocumentParser::getDocument).collect(toList());
         graphqlDocuments.forEach(this::addScalarsToCustomMappingConfig);
         graphqlDocuments.forEach(this::processDocument);
@@ -77,7 +85,7 @@ class GraphqlCodegen {
     }
 
     private void generateFile(Template template, Map<String, Object> dataModel) {
-        File javaSourceFile = new File(outputDir, dataModel.get(DataModelFields.CLASS_NAME) + ".java");
+        File javaSourceFile = new File(classesOutputDir, dataModel.get(DataModelFields.CLASS_NAME) + ".java");
         try {
             boolean fileCreated = javaSourceFile.createNewFile();
             if (!fileCreated) {
@@ -89,12 +97,21 @@ class GraphqlCodegen {
         }
     }
 
-    private void prepareOutputDir() {
+    private static File prepareOutputDir(File outputDir, MappingConfig mappingConfig) {
         Utils.deleteFolder(outputDir);
-        boolean outputDirCreated = outputDir.mkdirs();
+
+        File targetDir;
+        String javaPackage = mappingConfig.getJavaPackage();
+        if (javaPackage == null || javaPackage.trim().isEmpty()) {
+            targetDir = outputDir;
+        } else {
+            targetDir = new File(outputDir, javaPackage.replace(".", File.separator));
+        }
+        boolean outputDirCreated = targetDir.mkdirs();
         if (!outputDirCreated) {
             throw new CodeGenerationException("Unable to create output directory");
         }
+        return targetDir;
     }
 
 }
