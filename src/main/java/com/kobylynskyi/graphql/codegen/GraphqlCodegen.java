@@ -8,17 +8,17 @@ import com.kobylynskyi.graphql.codegen.model.DataModelFields;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import graphql.language.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Generator of:
@@ -36,27 +36,27 @@ import static java.util.stream.Collectors.toList;
 class GraphqlCodegen {
 
     private List<String> schemas;
-    private File outputDir;
+    private String outputDir;
     private MappingConfig mappingConfig;
 
     private File classesOutputDir;
 
-    GraphqlCodegen(List<String> schemas, File outputDir, MappingConfig mappingConfig) {
+    GraphqlCodegen(List<String> schemas, String outputDir, MappingConfig mappingConfig) {
         this.schemas = schemas;
         this.outputDir = outputDir;
         this.mappingConfig = mappingConfig;
     }
 
-    void generate() {
+    void generate() throws IOException, TemplateException {
         classesOutputDir = prepareOutputDir(outputDir, mappingConfig);
-        List<Document> graphqlDocuments = schemas.stream()
-                .map(GraphqlDocumentParser::getDocument)
-                .collect(toList());
-        graphqlDocuments.forEach(this::addScalarsToCustomMappingConfig);
-        graphqlDocuments.forEach(this::processDocument);
+        for (String schema : schemas) {
+            Document document = GraphqlDocumentParser.getDocument(schema);
+            addScalarsToCustomMappingConfig(document);
+            processDocument(document);
+        }
     }
 
-    private void processDocument(Document document) {
+    private void processDocument(Document document) throws IOException, TemplateException {
         for (Definition definition : document.getDefinitions()) {
             if (definition instanceof ObjectTypeDefinition) {
                 ObjectTypeDefinition typeDef = (ObjectTypeDefinition) definition;
@@ -94,26 +94,24 @@ class GraphqlCodegen {
         }
     }
 
-    private void generateFile(Template template, Map<String, Object> dataModel) {
+    private void generateFile(Template template, Map<String, Object> dataModel) throws IOException, TemplateException {
         File javaSourceFile = new File(classesOutputDir, dataModel.get(DataModelFields.CLASS_NAME) + ".java");
-        try {
-            boolean fileCreated = javaSourceFile.createNewFile();
-            if (!fileCreated) {
-                throw new FileAlreadyExistsException("File already exists: " + javaSourceFile.getPath());
-            }
-            template.process(dataModel, new FileWriter(javaSourceFile));
-        } catch (Exception e) {
-            throw new CodeGenerationException(e);
+        boolean fileCreated = javaSourceFile.createNewFile();
+        if (!fileCreated) {
+            throw new FileAlreadyExistsException("File already exists: " + javaSourceFile.getPath());
         }
+        template.process(dataModel, new FileWriter(javaSourceFile));
+
     }
 
-    private static File prepareOutputDir(File outputDir, MappingConfig mappingConfig) {
-        Utils.deleteFolder(outputDir);
+    private static File prepareOutputDir(String outputDir, MappingConfig mappingConfig) {
+        File outputDirFolder = new File(outputDir);
+        Utils.deleteFolder(outputDirFolder);
 
         File targetDir;
         String javaPackage = mappingConfig.getJavaPackage();
         if (javaPackage == null || javaPackage.trim().isEmpty()) {
-            targetDir = outputDir;
+            targetDir = outputDirFolder;
         } else {
             targetDir = new File(outputDir, javaPackage.replace(".", File.separator));
         }

@@ -3,6 +3,7 @@ package com.kobylynskyi.graphql.codegen.utils;
 import graphql.language.OperationDefinition;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -33,26 +34,31 @@ public final class Utils {
         }
     }
 
-    public static String getFileContent(String filePath) {
-        try {
-            return new String(Files.readAllBytes(Paths.get(filePath)));
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to read the file: " + filePath, e);
-        }
+    public static String getFileContent(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 
     public static void deleteFolder(File folder) {
+        if (!folder.exists()) {
+            return;
+        }
         File[] files = folder.listFiles();
         if (files != null) { //some JVMs return null for empty dirs
-            for (File f : files) {
-                if (f.isDirectory()) {
-                    deleteFolder(f);
+            for (File subFiles : files) {
+                if (subFiles.isDirectory()) {
+                    deleteFolder(subFiles);
                 } else {
-                    f.delete();
+                    boolean deleted = subFiles.delete();
+                    if (!deleted) {
+                        throw new RuntimeException("Unable to delete directory: " + subFiles.getPath());
+                    }
                 }
             }
         }
-        folder.delete();
+        boolean deleted = folder.delete();
+        if (!deleted) {
+            throw new RuntimeException("Unable to delete directory: " + folder.getPath());
+        }
     }
 
 }

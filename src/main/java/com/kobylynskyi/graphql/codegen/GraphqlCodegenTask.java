@@ -1,11 +1,12 @@
 package com.kobylynskyi.graphql.codegen;
 
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import freemarker.template.TemplateException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,12 @@ import java.util.Map;
 public class GraphqlCodegenTask extends DefaultTask {
 
     private List<String> graphqlSchemaPaths;
-    private File outputDir;
+    private String outputDir;
     private Map<String, String> customTypesMapping;
     private String javaPackage;
 
     @TaskAction
-    public void generate() {
+    public void generate() throws IOException, TemplateException {
         MappingConfig mappingConfig = new MappingConfig();
         mappingConfig.setJavaPackage(javaPackage);
         mappingConfig.setCustomTypesMapping(customTypesMapping != null ? customTypesMapping : new HashMap<>());
@@ -39,11 +40,11 @@ public class GraphqlCodegenTask extends DefaultTask {
     }
 
     @OutputDirectory
-    public File getOutputDir() {
+    public String getOutputDir() {
         return outputDir;
     }
 
-    public void setOutputDir(File outputDir) {
+    public void setOutputDir(String outputDir) {
         this.outputDir = outputDir;
     }
 
