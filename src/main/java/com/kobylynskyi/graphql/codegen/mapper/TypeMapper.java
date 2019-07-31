@@ -15,13 +15,13 @@ import java.util.Map;
  */
 public class TypeMapper {
 
-    public static String mapToJavaType(Type type, MappingConfig mappingConfig) {
+    public static String mapToJavaType(MappingConfig mappingConfig, Type type) {
         if (type instanceof TypeName) {
-            return mapToJavaType(((TypeName) type).getName(), mappingConfig);
+            return mapToJavaType(mappingConfig, ((TypeName) type).getName());
         } else if (type instanceof ListType) {
-            return wrapIntoJavaCollection(mapToJavaType(((ListType) type).getType(), mappingConfig));
+            return wrapIntoJavaCollection(mapToJavaType(mappingConfig, ((ListType) type).getType()));
         } else if (type instanceof NonNullType) {
-            return mapToJavaType(((NonNullType) type).getType(), mappingConfig);
+            return mapToJavaType(mappingConfig, ((NonNullType) type).getType());
         }
         return null;
     }
@@ -30,7 +30,7 @@ public class TypeMapper {
         return String.format("java.util.Collection<%s>", type);
     }
 
-    private static String mapToJavaType(String graphlType, MappingConfig mappingConfig) {
+    private static String mapToJavaType(MappingConfig mappingConfig, String graphlType) {
         Map<String, String> graphqlScalarsMapping = mappingConfig.getCustomTypesMapping();
         if (graphqlScalarsMapping.containsKey(graphlType)) {
             return graphqlScalarsMapping.get(graphlType);

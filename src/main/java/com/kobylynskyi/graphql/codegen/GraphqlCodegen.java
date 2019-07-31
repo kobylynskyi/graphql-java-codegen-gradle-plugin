@@ -1,9 +1,6 @@
 package com.kobylynskyi.graphql.codegen;
 
-import com.kobylynskyi.graphql.codegen.mapper.EnumDefinitionToDataModelMapper;
-import com.kobylynskyi.graphql.codegen.mapper.FieldDefinitionToDataModelMapper;
-import com.kobylynskyi.graphql.codegen.mapper.InputTypeDefinitionToDataModelMapper;
-import com.kobylynskyi.graphql.codegen.mapper.TypeDefinitionToDataModelMapper;
+import com.kobylynskyi.graphql.codegen.mapper.*;
 import com.kobylynskyi.graphql.codegen.model.DataModelFields;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
@@ -19,6 +16,8 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Generator of:
@@ -58,29 +57,59 @@ class GraphqlCodegen {
 
     private void processDocument(Document document) throws IOException, TemplateException {
         for (Definition definition : document.getDefinitions()) {
-            if (definition instanceof ObjectTypeDefinition) {
-                ObjectTypeDefinition typeDef = (ObjectTypeDefinition) definition;
-                if (Utils.isGraphqlOperation(typeDef.getName())) {
-                    for (FieldDefinition fieldDef : typeDef.getFieldDefinitions()) {
-                        Map<String, Object> dataModel = FieldDefinitionToDataModelMapper.map(fieldDef, typeDef.getName(), mappingConfig);
-                        generateFile(FreeMarkerTemplatesRegistry.operationTemplate, dataModel);
-                    }
-                } else {
-                    Map<String, Object> dataModel = TypeDefinitionToDataModelMapper.map(typeDef, mappingConfig);
-                    generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
-                }
-            } else if (definition instanceof EnumTypeDefinition) {
-                EnumTypeDefinition typeDef = (EnumTypeDefinition) definition;
-                Map<String, Object> dataModel = EnumDefinitionToDataModelMapper.map(typeDef, mappingConfig);
-                generateFile(FreeMarkerTemplatesRegistry.enumTemplate, dataModel);
-            } else if (definition instanceof InputObjectTypeDefinition) {
-                InputObjectTypeDefinition typeDef = (InputObjectTypeDefinition) definition;
-                Map<String, Object> dataModel = InputTypeDefinitionToDataModelMapper.map(typeDef, mappingConfig);
-                generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
+            DefinitionType definitionType = DefinitionTypeDeterminer.determine(definition);
+            switch (definitionType) {
+                case OPERATION:
+                    generateOperation((ObjectTypeDefinition) definition);
+                    break;
+                case TYPE:
+                    generateType((ObjectTypeDefinition) definition, document);
+                    break;
+                case ENUM:
+                    generateEnum((EnumTypeDefinition) definition);
+                    break;
+                case INPUT:
+                    generateInput((InputObjectTypeDefinition) definition);
+                    break;
+                case UNION:
+                    // TODO: Add support of union
+                    throw new UnsupportedOperationException("Unions are not supported (yet)");
             }
-            // TODO: Add support of union
-            // TODO: Add support of interface
         }
+    }
+
+    private void generateOperation(ObjectTypeDefinition definition) throws IOException, TemplateException {
+        for (FieldDefinition fieldDef : definition.getFieldDefinitions()) {
+            Map<String, Object> dataModel = FieldDefinitionToDataModelMapper.map(mappingConfig, fieldDef, definition.getName());
+            generateFile(FreeMarkerTemplatesRegistry.operationTemplate, dataModel);
+        }
+    }
+
+    private void generateType(ObjectTypeDefinition definition, Document document) throws IOException, TemplateException {
+        if (definition.getImplements().isEmpty()) {
+            Map<String, Object> dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition);
+            generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
+        } else {
+            Set<String> typeImplements = definition.getImplements().stream()
+                    .map(type -> TypeMapper.mapToJavaType(mappingConfig, type))
+                    .collect(Collectors.toSet());
+            List<NamedNode> nodesImplements = document.getDefinitions().stream()
+                    .filter(def -> def instanceof NamedNode)
+                    .map(def -> (NamedNode) def)
+                    .filter(def -> typeImplements.contains(def.getName()))
+                    .collect(Collectors.toList());
+            // FIXME
+        }
+    }
+
+    private void generateInput(InputObjectTypeDefinition definition) throws IOException, TemplateException {
+        Map<String, Object> dataModel = InputTypeDefinitionToDataModelMapper.map(mappingConfig, definition);
+        generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
+    }
+
+    private void generateEnum(EnumTypeDefinition definition) throws IOException, TemplateException {
+        Map<String, Object> dataModel = EnumDefinitionToDataModelMapper.map(mappingConfig, definition);
+        generateFile(FreeMarkerTemplatesRegistry.enumTemplate, dataModel);
     }
 
     private void addScalarsToCustomMappingConfig(Document document) {

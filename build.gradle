@@ -57,3 +57,5 @@ pluginBundle {
     description = 'Gradle plugin for GraphQL Java code generation'
     tags = ['graphql-java', 'graphql-codegen-plugin']
 }
+
+sourceSets.main.java.srcDir 'build/generated'

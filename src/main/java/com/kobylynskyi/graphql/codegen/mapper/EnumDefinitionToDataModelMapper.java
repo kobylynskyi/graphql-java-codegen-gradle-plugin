@@ -19,11 +19,11 @@ public class EnumDefinitionToDataModelMapper {
     /**
      * Map field definition to a Freemarker data model
      *
-     * @param enumDef       GraphQL enum definition
      * @param mappingConfig Global mapping configuration
+     * @param enumDef       GraphQL enum definition
      * @return Freemarker data model of the GraphQL enum
      */
-    public static Map<String, Object> map(EnumTypeDefinition enumDef, MappingConfig mappingConfig) {
+    public static Map<String, Object> map(MappingConfig mappingConfig, EnumTypeDefinition enumDef) {
         Map<String, Object> dataModel = new HashMap<>();
 
         dataModel.put(PACKAGE, MapperUtils.getJavaPackageLine(mappingConfig));

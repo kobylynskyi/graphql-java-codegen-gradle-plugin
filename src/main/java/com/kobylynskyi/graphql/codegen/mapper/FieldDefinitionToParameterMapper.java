@@ -15,20 +15,19 @@ import java.util.stream.Collectors;
  */
 public class FieldDefinitionToParameterMapper {
 
-    public static List<Parameter> map(List<FieldDefinition> fieldDefinitions, MappingConfig mappingConfig) {
+    public static List<Parameter> map(MappingConfig mappingConfig, List<FieldDefinition> fieldDefinitions) {
         if (fieldDefinitions == null) {
             return Collections.emptyList();
         }
         return fieldDefinitions.stream()
-                .map(fieldDefinition -> map(fieldDefinition, mappingConfig))
+                .map(fieldDefinition -> map(mappingConfig, fieldDefinition))
                 .collect(Collectors.toList());
     }
 
-    private static Parameter map(FieldDefinition fieldDefinition,
-                                 MappingConfig mappingConfig) {
+    private static Parameter map(MappingConfig mappingConfig, FieldDefinition fieldDefinition) {
         Parameter parameter = new Parameter();
         parameter.setName(fieldDefinition.getName());
-        parameter.setType(TypeMapper.mapToJavaType(fieldDefinition.getType(), mappingConfig));
+        parameter.setType(TypeMapper.mapToJavaType(mappingConfig, fieldDefinition.getType()));
         return parameter;
     }
 

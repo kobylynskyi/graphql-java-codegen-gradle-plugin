@@ -23,7 +23,7 @@ public class EnumValueDefinitionToStringMapper {
     }
 
     public static String map(EnumValueDefinition enumValueDefinitions) {
-        return enumValueDefinitions.getName();
+        return MapperUtils.capitalizeIfRestricted(enumValueDefinitions.getName());
     }
 
 }

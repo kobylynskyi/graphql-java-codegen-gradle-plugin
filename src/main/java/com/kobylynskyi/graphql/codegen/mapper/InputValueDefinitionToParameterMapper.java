@@ -15,21 +15,19 @@ import java.util.stream.Collectors;
  */
 public class InputValueDefinitionToParameterMapper {
 
-    public static List<Parameter> map(List<InputValueDefinition> valueDefinitions,
-                                      MappingConfig mappingConfig) {
+    public static List<Parameter> map(MappingConfig mappingConfig, List<InputValueDefinition> valueDefinitions) {
         if (valueDefinitions == null) {
             return Collections.emptyList();
         }
         return valueDefinitions.stream()
-                .map(inputValueDefinition -> map(inputValueDefinition, mappingConfig))
+                .map(inputValueDefinition -> map(mappingConfig, inputValueDefinition))
                 .collect(Collectors.toList());
     }
 
-    public static Parameter map(InputValueDefinition inputValueDefinition,
-                                MappingConfig mappingConfig) {
+    public static Parameter map(MappingConfig mappingConfig, InputValueDefinition inputValueDefinition) {
         Parameter parameter = new Parameter();
-        parameter.setName(inputValueDefinition.getName());
-        parameter.setType(TypeMapper.mapToJavaType(inputValueDefinition.getType(), mappingConfig));
+        parameter.setName(MapperUtils.capitalizeIfRestricted(inputValueDefinition.getName()));
+        parameter.setType(TypeMapper.mapToJavaType(mappingConfig, inputValueDefinition.getType()));
         return parameter;
     }
 

@@ -19,16 +19,16 @@ public class InputTypeDefinitionToDataModelMapper {
     /**
      * Map input type definition to a Freemarker data model
      *
-     * @param typeDefinition GraphQL type definition
      * @param mappingConfig  Global mapping configuration
+     * @param typeDefinition GraphQL type definition
      * @return Freemarker data model of the GraphQL type
      */
-    public static Map<String, Object> map(InputObjectTypeDefinition typeDefinition, MappingConfig mappingConfig) {
+    public static Map<String, Object> map(MappingConfig mappingConfig, InputObjectTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put(PACKAGE, MapperUtils.getJavaPackageLine(mappingConfig));
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
         dataModel.put(NAME, typeDefinition.getName());
-        dataModel.put(FIELDS, InputValueDefinitionToParameterMapper.map(typeDefinition.getInputValueDefinitions(), mappingConfig));
+        dataModel.put(FIELDS, InputValueDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getInputValueDefinitions()));
         return dataModel;
     }
 
