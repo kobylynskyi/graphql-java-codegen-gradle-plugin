@@ -1,13 +1,13 @@
-package com.kobylynskyi.graphql.generator.mapper;
+package com.kobylynskyi.graphql.codegen.mapper;
 
-import com.kobylynskyi.graphql.generator.model.MappingConfig;
-import com.kobylynskyi.graphql.generator.utils.Utils;
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.EnumTypeDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kobylynskyi.graphql.generator.model.DataModelFields.*;
+import static com.kobylynskyi.graphql.codegen.model.DataModelFields.*;
 
 /**
  * Map enum definition to a Freemarker data model

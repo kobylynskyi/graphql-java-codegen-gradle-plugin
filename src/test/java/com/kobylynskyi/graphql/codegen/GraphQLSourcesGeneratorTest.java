@@ -1,7 +1,7 @@
-package com.kobylynskyi.graphql.generator;
+package com.kobylynskyi.graphql.codegen;
 
-import com.kobylynskyi.graphql.generator.model.MappingConfig;
-import com.kobylynskyi.graphql.generator.utils.Utils;
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import org.gradle.internal.impldep.org.hamcrest.core.StringContains;
 import org.gradle.internal.impldep.org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.BeforeEach;

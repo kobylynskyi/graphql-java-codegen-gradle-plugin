@@ -1,11 +1,11 @@
-package com.kobylynskyi.graphql.generator;
+package com.kobylynskyi.graphql.codegen;
 
-import com.kobylynskyi.graphql.generator.mapper.EnumDefinitionToDataModelMapper;
-import com.kobylynskyi.graphql.generator.mapper.FieldDefinitionToDataModelMapper;
-import com.kobylynskyi.graphql.generator.mapper.TypeDefinitionToDataModelMapper;
-import com.kobylynskyi.graphql.generator.model.DataModelFields;
-import com.kobylynskyi.graphql.generator.model.MappingConfig;
-import com.kobylynskyi.graphql.generator.utils.Utils;
+import com.kobylynskyi.graphql.codegen.mapper.EnumDefinitionToDataModelMapper;
+import com.kobylynskyi.graphql.codegen.mapper.FieldDefinitionToDataModelMapper;
+import com.kobylynskyi.graphql.codegen.mapper.TypeDefinitionToDataModelMapper;
+import com.kobylynskyi.graphql.codegen.model.DataModelFields;
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import freemarker.template.Template;
 import graphql.language.*;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.kobylynskyi.graphql.generator.mapper;
+package com.kobylynskyi.graphql.codegen.mapper;
 
-import com.kobylynskyi.graphql.generator.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 
 public class MapperUtils {
 

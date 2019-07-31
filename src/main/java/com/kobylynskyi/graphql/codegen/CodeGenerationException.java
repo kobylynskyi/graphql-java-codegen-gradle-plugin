@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.generator;
+package com.kobylynskyi.graphql.codegen;
 
 /**
  * Generic exception that indicates some code generation error

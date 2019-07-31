@@ -1,7 +1,7 @@
-package com.kobylynskyi.graphql.generator.mapper;
+package com.kobylynskyi.graphql.codegen.mapper;
 
-import com.kobylynskyi.graphql.generator.model.MappingConfig;
-import com.kobylynskyi.graphql.generator.model.Parameter;
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.model.Parameter;
 import graphql.language.InputValueDefinition;
 
 import java.util.Collections;

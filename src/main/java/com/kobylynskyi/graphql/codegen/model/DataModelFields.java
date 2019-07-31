@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.generator.model;
+package com.kobylynskyi.graphql.codegen.model;
 
 /**
  * Freemarker data model field names

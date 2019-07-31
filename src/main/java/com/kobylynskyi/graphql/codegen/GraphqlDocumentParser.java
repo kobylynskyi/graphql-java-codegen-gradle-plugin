@@ -1,6 +1,6 @@
-package com.kobylynskyi.graphql.generator;
+package com.kobylynskyi.graphql.codegen;
 
-import com.kobylynskyi.graphql.generator.utils.Utils;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.Document;
 import graphql.parser.Parser;
 
@@ -11,7 +11,7 @@ public class GraphqlDocumentParser {
     private static final Parser GRAPHQL_PARSER = new Parser();
 
     public static Document getDocument(File schemaFile) {
-        String fileContent = Utils.getResourceContent(schemaFile);
+        String fileContent = Utils.getFileContent(schemaFile);
         return GRAPHQL_PARSER.parseDocument(fileContent);
     }
 

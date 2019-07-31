@@ -1,3 +1,8 @@
+plugins {
+    id "com.gradle.plugin-publish" version "0.10.1"
+    id "java-gradle-plugin"
+}
+
 repositories {
     maven {
         url 'https://repo.gradle.org/gradle/libs-releases-local'
@@ -8,6 +13,10 @@ repositories {
 
 apply plugin: "java"
 apply plugin: "idea"
+apply plugin: "maven-publish"
+
+version = "1.0"
+group = "com.kobylynskyi.graphql.codegen"
 
 dependencies {
     compile gradleApi()
@@ -20,4 +29,31 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+}
+
+publishing {
+    publications {
+        pluginPublication (MavenPublication) {
+            groupId project.group
+            artifactId "demo"
+            version project.version
+        }
+    }
+}
+
+gradlePlugin {
+    plugins {
+        graphqlCodegenPlugin {
+            id = 'com.kobylynskyi.graphql.codegen'
+            displayName = 'GraphQL Java Codegen plugin'
+            implementationClass = 'com.kobylynskyi.graphql.codegen.GraphqlCodegenPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/kobylynskyi/graphql-java-codegen-gradle-plugin'
+    vcsUrl = 'https://github.com/kobylynskyi/graphql-java-codegen-gradle-plugin'
+    description = 'Gradle plugin for GraphQL Java code generation'
+    tags = ['graphql-java', 'graphql-codegen-plugin']
 }

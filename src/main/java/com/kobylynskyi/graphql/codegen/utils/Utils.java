@@ -1,8 +1,8 @@
-package com.kobylynskyi.graphql.generator.utils;
+package com.kobylynskyi.graphql.codegen.utils;
 
 import graphql.language.OperationDefinition;
+
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -33,20 +33,11 @@ public final class Utils {
         }
     }
 
-    public static String getResourceContent(File file) {
-        try {
-            URL resource = Utils.class.getClassLoader().getResource(file.getPath());
-            return new String(Files.readAllBytes(Paths.get(resource.toURI())));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static String getFileContent(File file) {
         try {
             return new String(Files.readAllBytes(Paths.get(file.toURI())));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to read the file: " + file.getPath(), e);
         }
     }
 

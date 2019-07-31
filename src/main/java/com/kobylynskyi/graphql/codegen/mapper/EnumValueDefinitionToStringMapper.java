@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.generator.mapper;
+package com.kobylynskyi.graphql.codegen.mapper;
 
 import graphql.language.EnumValueDefinition;
 

@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.generator;
+package com.kobylynskyi.graphql.codegen;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -21,9 +21,9 @@ public class FreeMarkerTemplatesRegistry {
         configuration.setWrapUncheckedExceptions(true);
 
         try {
-            typeTemplate = configuration.getTemplate("javaClassGraphqlType.ftl");
-            enumTemplate = configuration.getTemplate("javaClassGraphqlEnum.ftl");
-            operationTemplate = configuration.getTemplate("javaClassGraphqlOperation.ftl");
+            typeTemplate = configuration.getTemplate("templates/javaClassGraphqlType.ftl");
+            enumTemplate = configuration.getTemplate("templates/javaClassGraphqlEnum.ftl");
+            operationTemplate = configuration.getTemplate("templates/javaClassGraphqlOperation.ftl");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
