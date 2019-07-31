@@ -65,6 +65,9 @@ class GraphqlCodegen {
                 case TYPE:
                     generateType((ObjectTypeDefinition) definition, document);
                     break;
+            case INTERFACE:
+                    generateInterface((InterfaceTypeDefinition) definition);
+                    break;
                 case ENUM:
                     generateEnum((EnumTypeDefinition) definition);
                     break;
@@ -73,9 +76,14 @@ class GraphqlCodegen {
                     break;
                 case UNION:
                     // TODO: Add support of union
-                    throw new UnsupportedOperationException("Unions are not supported (yet)");
+                    // throw new UnsupportedOperationException("Unions are not supported (yet)");
             }
         }
+    }
+
+    private void generateInterface(InterfaceTypeDefinition definition) throws IOException, TemplateException {
+        Map<String, Object> dataModel = InterfaceDefinitionToDataModelMapper.map(mappingConfig, definition);
+        generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
     }
 
     private void generateOperation(ObjectTypeDefinition definition) throws IOException, TemplateException {
@@ -86,20 +94,22 @@ class GraphqlCodegen {
     }
 
     private void generateType(ObjectTypeDefinition definition, Document document) throws IOException, TemplateException {
+        Map<String, Object> dataModel;
         if (definition.getImplements().isEmpty()) {
-            Map<String, Object> dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition);
-            generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
+            dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, nodesImplements);
         } else {
             Set<String> typeImplements = definition.getImplements().stream()
                     .map(type -> TypeMapper.mapToJavaType(mappingConfig, type))
                     .collect(Collectors.toSet());
-            List<NamedNode> nodesImplements = document.getDefinitions().stream()
-                    .filter(def -> def instanceof NamedNode)
-                    .map(def -> (NamedNode) def)
+            List<InterfaceTypeDefinition> nodesImplements = document.getDefinitions().stream()
+                    .filter(def -> def instanceof InterfaceTypeDefinition)
+                    .map(def -> (InterfaceTypeDefinition) def)
                     .filter(def -> typeImplements.contains(def.getName()))
                     .collect(Collectors.toList());
             // FIXME
+            dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, nodesImplements);
         }
+        generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
     }
 
     private void generateInput(InputObjectTypeDefinition definition) throws IOException, TemplateException {

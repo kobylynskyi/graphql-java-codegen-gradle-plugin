@@ -4,7 +4,8 @@ public enum DefinitionType {
 
     SCHEMA,
     OPERATION, // Query/Mutation/Subscription
-    TYPE, // type/interface
+    TYPE,
+    INTERFACE,
     INPUT,
     UNION,
     ENUM,

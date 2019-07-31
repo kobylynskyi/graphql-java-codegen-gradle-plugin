@@ -24,6 +24,8 @@ public class DefinitionTypeDeterminer {
             return DefinitionType.UNION;
         } else if (definition instanceof ScalarTypeDefinition) {
             return DefinitionType.SCALAR;
+        } else if (definition instanceof InterfaceTypeDefinition) {
+            return DefinitionType.INTERFACE;
         } else {
             throw new CodeGenerationException("Unsupported GraphQL definition type: " + definition.getClass());
         }
