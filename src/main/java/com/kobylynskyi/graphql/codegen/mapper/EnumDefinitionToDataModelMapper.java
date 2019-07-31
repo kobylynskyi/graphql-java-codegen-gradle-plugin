@@ -26,9 +26,8 @@ public class EnumDefinitionToDataModelMapper {
     public static Map<String, Object> map(EnumTypeDefinition enumDef, MappingConfig mappingConfig) {
         Map<String, Object> dataModel = new HashMap<>();
 
-        String className = Utils.capitalize(enumDef.getName()) + "Enum";
         dataModel.put(PACKAGE, MapperUtils.getJavaPackageLine(mappingConfig));
-        dataModel.put(CLASS_NAME, className);
+        dataModel.put(CLASS_NAME, Utils.capitalize(enumDef.getName()));
         dataModel.put(FIELDS, EnumValueDefinitionToStringMapper.map(enumDef.getEnumValueDefinitions()));
 
         return dataModel;

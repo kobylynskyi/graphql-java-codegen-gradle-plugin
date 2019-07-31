@@ -2,6 +2,7 @@ package com.kobylynskyi.graphql.codegen;
 
 import com.kobylynskyi.graphql.codegen.mapper.EnumDefinitionToDataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.FieldDefinitionToDataModelMapper;
+import com.kobylynskyi.graphql.codegen.mapper.InputTypeDefinitionToDataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.TypeDefinitionToDataModelMapper;
 import com.kobylynskyi.graphql.codegen.model.DataModelFields;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
@@ -13,6 +14,7 @@ import lombok.Setter;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +35,13 @@ import static java.util.stream.Collectors.toList;
 @Setter
 class GraphqlCodegen {
 
-    private List<File> schemas;
+    private List<String> schemas;
     private File outputDir;
     private MappingConfig mappingConfig;
 
     private File classesOutputDir;
 
-    GraphqlCodegen(List<File> schemas, File outputDir, MappingConfig mappingConfig) {
+    GraphqlCodegen(List<String> schemas, File outputDir, MappingConfig mappingConfig) {
         this.schemas = schemas;
         this.outputDir = outputDir;
         this.mappingConfig = mappingConfig;
@@ -47,7 +49,9 @@ class GraphqlCodegen {
 
     void generate() {
         classesOutputDir = prepareOutputDir(outputDir, mappingConfig);
-        List<Document> graphqlDocuments = schemas.stream().map(GraphqlDocumentParser::getDocument).collect(toList());
+        List<Document> graphqlDocuments = schemas.stream()
+                .map(GraphqlDocumentParser::getDocument)
+                .collect(toList());
         graphqlDocuments.forEach(this::addScalarsToCustomMappingConfig);
         graphqlDocuments.forEach(this::processDocument);
     }
@@ -69,7 +73,13 @@ class GraphqlCodegen {
                 EnumTypeDefinition typeDef = (EnumTypeDefinition) definition;
                 Map<String, Object> dataModel = EnumDefinitionToDataModelMapper.map(typeDef, mappingConfig);
                 generateFile(FreeMarkerTemplatesRegistry.enumTemplate, dataModel);
+            } else if (definition instanceof InputObjectTypeDefinition) {
+                InputObjectTypeDefinition typeDef = (InputObjectTypeDefinition) definition;
+                Map<String, Object> dataModel = InputTypeDefinitionToDataModelMapper.map(typeDef, mappingConfig);
+                generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
             }
+            // TODO: Add support of union
+            // TODO: Add support of interface
         }
     }
 
@@ -89,7 +99,7 @@ class GraphqlCodegen {
         try {
             boolean fileCreated = javaSourceFile.createNewFile();
             if (!fileCreated) {
-                throw new CodeGenerationException("Failed to create a file: " + javaSourceFile.getName());
+                throw new FileAlreadyExistsException("File already exists: " + javaSourceFile.getPath());
             }
             template.process(dataModel, new FileWriter(javaSourceFile));
         } catch (Exception e) {

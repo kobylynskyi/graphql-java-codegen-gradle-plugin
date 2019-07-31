@@ -1,6 +1,6 @@
 ${package}
 
-public class ${className} {
+public enum ${className} {
 
 <#list fields as field>
     ${field}<#if field_has_next>, </#if>

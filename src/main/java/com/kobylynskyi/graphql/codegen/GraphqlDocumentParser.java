@@ -10,8 +10,8 @@ public class GraphqlDocumentParser {
 
     private static final Parser GRAPHQL_PARSER = new Parser();
 
-    public static Document getDocument(File schemaFile) {
-        String fileContent = Utils.getFileContent(schemaFile);
+    public static Document getDocument(String schemaFilePath) {
+        String fileContent = Utils.getFileContent(schemaFilePath);
         return GRAPHQL_PARSER.parseDocument(fileContent);
     }
 

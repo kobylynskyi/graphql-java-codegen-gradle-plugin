@@ -33,11 +33,11 @@ public final class Utils {
         }
     }
 
-    public static String getFileContent(File file) {
+    public static String getFileContent(String filePath) {
         try {
-            return new String(Files.readAllBytes(Paths.get(file.toURI())));
+            return new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (Exception e) {
-            throw new RuntimeException("Unable to read the file: " + file.getPath(), e);
+            throw new RuntimeException("Unable to read the file: " + filePath, e);
         }
     }
 

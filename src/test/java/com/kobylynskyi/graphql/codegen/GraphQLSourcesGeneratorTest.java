@@ -29,7 +29,7 @@ class GraphQLSourcesGeneratorTest {
     @BeforeEach
     void init() {
         mappingConfig.setJavaPackage("com.kobylynskyi.graphql.test1");
-        generator = new GraphqlCodegen(Collections.singletonList(new File("test.graphqls")),
+        generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/test.graphqls"),
                 outputBuildDir, mappingConfig);
     }
 
@@ -61,7 +61,7 @@ class GraphQLSourcesGeneratorTest {
                 .filter(file -> file.getName().equalsIgnoreCase("Event.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertThat(Utils.getFileContent(eventFile), StringContains.containsString("java.util.Date createdDateTime;"));
+        assertThat(Utils.getFileContent(eventFile.getPath()), StringContains.containsString("java.util.Date createdDateTime;"));
     }
 
     @Test
@@ -73,7 +73,7 @@ class GraphQLSourcesGeneratorTest {
                 .filter(file -> file.getName().equalsIgnoreCase("Event.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertThat(Utils.getFileContent(eventFile), StringContains.containsString("String createdDateTime;"));
+        assertThat(Utils.getFileContent(eventFile.getPath()), StringContains.containsString("String createdDateTime;"));
     }
 
     @Test
@@ -86,7 +86,7 @@ class GraphQLSourcesGeneratorTest {
                 .filter(file -> file.getName().equalsIgnoreCase("Event.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertThat(Utils.getFileContent(eventFile), StringStartsWith.startsWith("\n" +
+        assertThat(Utils.getFileContent(eventFile.getPath()), StringStartsWith.startsWith("\n" +
                 "\n" +
                 "public class Event"));
     }
