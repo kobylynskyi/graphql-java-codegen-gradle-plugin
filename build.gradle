@@ -15,7 +15,7 @@ apply plugin: "java"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 
-version = "1.0"
+version = "1.0-SNAPSHOT"
 group = "com.kobylynskyi.graphql.codegen"
 
 dependencies {
