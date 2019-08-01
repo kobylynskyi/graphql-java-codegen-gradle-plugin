@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,7 +66,7 @@ class GraphqlCodegen {
                 case TYPE:
                     generateType((ObjectTypeDefinition) definition, document);
                     break;
-            case INTERFACE:
+                case INTERFACE:
                     generateInterface((InterfaceTypeDefinition) definition);
                     break;
                 case ENUM:
@@ -94,21 +95,18 @@ class GraphqlCodegen {
     }
 
     private void generateType(ObjectTypeDefinition definition, Document document) throws IOException, TemplateException {
-        Map<String, Object> dataModel;
-        if (definition.getImplements().isEmpty()) {
-            dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, nodesImplements);
-        } else {
+        List<InterfaceTypeDefinition> interfaces = new ArrayList<>();
+        if (!definition.getImplements().isEmpty()) {
             Set<String> typeImplements = definition.getImplements().stream()
                     .map(type -> TypeMapper.mapToJavaType(mappingConfig, type))
                     .collect(Collectors.toSet());
-            List<InterfaceTypeDefinition> nodesImplements = document.getDefinitions().stream()
+            interfaces = document.getDefinitions().stream()
                     .filter(def -> def instanceof InterfaceTypeDefinition)
                     .map(def -> (InterfaceTypeDefinition) def)
                     .filter(def -> typeImplements.contains(def.getName()))
                     .collect(Collectors.toList());
-            // FIXME
-            dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, nodesImplements);
         }
+        Map<String, Object> dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, interfaces);
         generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
     }
 

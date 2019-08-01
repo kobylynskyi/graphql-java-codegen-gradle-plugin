@@ -1,15 +1,13 @@
 package com.kobylynskyi.graphql.codegen.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Freemarker-understandable format of method parameter
  *
  * @author kobylynskyi
  */
-@Getter
-@Setter
+@Data
 public class Parameter {
 
     private String type;
