@@ -14,11 +14,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Generator of:
@@ -76,10 +73,14 @@ class GraphqlCodegen {
                     generateInput((InputObjectTypeDefinition) definition);
                     break;
                 case UNION:
-                    // TODO: Add support of union
-                    // throw new UnsupportedOperationException("Unions are not supported (yet)");
+                    generateUnion((UnionTypeDefinition) definition);
             }
         }
+    }
+
+    private void generateUnion(UnionTypeDefinition definition) throws IOException, TemplateException {
+        Map<String, Object> dataModel = UnionDefinitionToDataModelMapper.map(mappingConfig, definition);
+        generateFile(FreeMarkerTemplatesRegistry.unionTemplate, dataModel);
     }
 
     private void generateInterface(InterfaceTypeDefinition definition) throws IOException, TemplateException {
@@ -92,21 +93,12 @@ class GraphqlCodegen {
             Map<String, Object> dataModel = FieldDefinitionToDataModelMapper.map(mappingConfig, fieldDef, definition.getName());
             generateFile(FreeMarkerTemplatesRegistry.operationTemplate, dataModel);
         }
+        // TODO: generate a single interface with all methods
+        // Hack to workaround https://github.com/facebook/relay/issues/112 re-exposing the root query object
     }
 
     private void generateType(ObjectTypeDefinition definition, Document document) throws IOException, TemplateException {
-        List<InterfaceTypeDefinition> interfaces = new ArrayList<>();
-        if (!definition.getImplements().isEmpty()) {
-            Set<String> typeImplements = definition.getImplements().stream()
-                    .map(type -> TypeMapper.mapToJavaType(mappingConfig, type))
-                    .collect(Collectors.toSet());
-            interfaces = document.getDefinitions().stream()
-                    .filter(def -> def instanceof InterfaceTypeDefinition)
-                    .map(def -> (InterfaceTypeDefinition) def)
-                    .filter(def -> typeImplements.contains(def.getName()))
-                    .collect(Collectors.toList());
-        }
-        Map<String, Object> dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, interfaces);
+        Map<String, Object> dataModel = TypeDefinitionToDataModelMapper.map(mappingConfig, definition, document);
         generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
     }
 
@@ -138,10 +130,9 @@ class GraphqlCodegen {
             throw new FileAlreadyExistsException("File already exists: " + javaSourceFile.getPath());
         }
         template.process(dataModel, new FileWriter(javaSourceFile));
-
     }
 
-    private static File prepareOutputDir(String outputDir, MappingConfig mappingConfig) {
+    private static File prepareOutputDir(String outputDir, MappingConfig mappingConfig) throws IOException {
         File outputDirFolder = new File(outputDir);
         Utils.deleteFolder(outputDirFolder);
 
@@ -154,7 +145,7 @@ class GraphqlCodegen {
         }
         boolean outputDirCreated = targetDir.mkdirs();
         if (!outputDirCreated) {
-            throw new CodeGenerationException("Unable to create output directory");
+            throw new IOException("Unable to create output directory");
         }
         return targetDir;
     }

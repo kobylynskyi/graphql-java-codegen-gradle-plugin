@@ -12,4 +12,5 @@ public final class DataModelFields {
     public static final String TYPE = "type";
     public static final String NAME = "name";
     public static final String FIELDS = "fields";
+    public static final String IMPLEMENTS = "implements";
 }

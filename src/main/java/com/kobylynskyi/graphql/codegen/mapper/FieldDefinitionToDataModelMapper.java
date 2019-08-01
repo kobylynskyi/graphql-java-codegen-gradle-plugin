@@ -31,6 +31,9 @@ public class FieldDefinitionToDataModelMapper {
         dataModel.put(TYPE, TypeMapper.mapToJavaType(mappingConfig, fieldDefinition.getType()));
         dataModel.put(NAME, fieldDefinition.getName());
         dataModel.put(FIELDS, InputValueDefinitionToParameterMapper.map(mappingConfig, fieldDefinition.getInputValueDefinitions()));
+
+        // TODO: "type" can be a root Query:
+        // Hack to workaround https://github.com/facebook/relay/issues/112 re-exposing the root query object
         return dataModel;
     }
 

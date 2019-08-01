@@ -56,9 +56,7 @@ public final class Utils {
             }
         }
         boolean deleted = folder.delete();
-        if (!deleted) {
-            throw new RuntimeException("Unable to delete directory: " + folder.getPath());
-        }
+        assert deleted : "Unable to delete directory: " + folder.getPath();
     }
 
 }

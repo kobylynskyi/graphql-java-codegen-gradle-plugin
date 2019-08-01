@@ -1,12 +1,15 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
-import com.kobylynskyi.graphql.codegen.CodeGenerationException;
+import com.kobylynskyi.graphql.codegen.exception.UnsupportedGraphqlDefinitionException;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.*;
 
 public class DefinitionTypeDeterminer {
 
     public static DefinitionType determine(Definition definition) {
+        if (definition == null) {
+            throw new IllegalArgumentException("GraphQL definition is undefined");
+        }
         if (definition instanceof ObjectTypeDefinition) {
             ObjectTypeDefinition typeDef = (ObjectTypeDefinition) definition;
             if (Utils.isGraphqlOperation(typeDef.getName())) {
@@ -27,7 +30,7 @@ public class DefinitionTypeDeterminer {
         } else if (definition instanceof InterfaceTypeDefinition) {
             return DefinitionType.INTERFACE;
         } else {
-            throw new CodeGenerationException("Unsupported GraphQL definition type: " + definition.getClass());
+            throw new UnsupportedGraphqlDefinitionException(definition);
         }
     }
 

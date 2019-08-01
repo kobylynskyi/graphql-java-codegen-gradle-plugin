@@ -10,6 +10,7 @@ public class FreeMarkerTemplatesRegistry {
 
     public static Template typeTemplate;
     public static Template enumTemplate;
+    public static Template unionTemplate;
     public static Template operationTemplate;
 
     static {
@@ -23,6 +24,7 @@ public class FreeMarkerTemplatesRegistry {
         try {
             typeTemplate = configuration.getTemplate("templates/javaClassGraphqlType.ftl");
             enumTemplate = configuration.getTemplate("templates/javaClassGraphqlEnum.ftl");
+            unionTemplate = configuration.getTemplate("templates/javaClassGraphqlUnion.ftl");
             operationTemplate = configuration.getTemplate("templates/javaClassGraphqlOperation.ftl");
         } catch (IOException e) {
             throw new RuntimeException(e);
