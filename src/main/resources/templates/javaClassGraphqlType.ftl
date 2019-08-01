@@ -1,6 +1,6 @@
 ${package}
 
-public class ${className} <#if implements?has_content>implements <#list implements as interface>${interface}<#if field_has_next>, </#if></#list></#if> {
+public class ${className} <#if implements?has_content>implements <#list implements as interface>${interface}<#if interface_has_next>, </#if></#list></#if> {
 
 <#list fields as field>
     private ${field.type} ${field.name};

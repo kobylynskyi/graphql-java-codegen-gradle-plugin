@@ -133,16 +133,14 @@ class GraphqlCodegen {
     }
 
     private static File prepareOutputDir(String outputDir, MappingConfig mappingConfig) throws IOException {
-        File outputDirFolder = new File(outputDir);
-        Utils.deleteFolder(outputDirFolder);
-
         File targetDir;
         String javaPackage = mappingConfig.getJavaPackage();
         if (javaPackage == null || javaPackage.trim().isEmpty()) {
-            targetDir = outputDirFolder;
+            targetDir = new File(outputDir);
         } else {
             targetDir = new File(outputDir, javaPackage.replace(".", File.separator));
         }
+        Utils.deleteFolder(targetDir);
         boolean outputDirCreated = targetDir.mkdirs();
         if (!outputDirCreated) {
             throw new IOException("Unable to create output directory");

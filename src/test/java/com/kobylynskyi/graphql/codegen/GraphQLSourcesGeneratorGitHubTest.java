@@ -1,16 +1,20 @@
 package com.kobylynskyi.graphql.codegen;
 
-import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import freemarker.template.TemplateException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 
 class GraphQLSourcesGeneratorGitHubTest {
 
@@ -31,11 +35,11 @@ class GraphQLSourcesGeneratorGitHubTest {
         generator.generate();
 
         File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
-        File eventFile = Arrays.stream(files)
-                .filter(file -> file.getName().equalsIgnoreCase("Commit.java"))
+        File commitFile = Arrays.stream(files).filter(file -> file.getName().equalsIgnoreCase("Commit.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        //assertThat(Utils.getFileContent(eventFile.getPath()), StringContains.containsString("String createdDateTime;"));
+        assertEquals(Utils.getFileContent(new File("src/test/resources/Commit_expected.java.txt").getPath()),
+                Utils.getFileContent(commitFile.getPath()));
     }
 
 }
