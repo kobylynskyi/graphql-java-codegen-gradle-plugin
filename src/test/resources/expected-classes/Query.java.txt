@@ -1,0 +1,11 @@
+package com.kobylynskyi.graphql.test1;
+
+public interface Query {
+
+    String version();
+
+    java.util.Collection<Event> eventsByCategoryAndStatus(String categoryId, EventStatus status);
+
+    Event eventById(String id);
+
+}

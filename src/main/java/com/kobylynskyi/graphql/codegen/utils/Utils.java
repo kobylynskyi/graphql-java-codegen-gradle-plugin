@@ -50,7 +50,7 @@ public final class Utils {
                 } else {
                     boolean deleted = subFiles.delete();
                     if (!deleted) {
-                        throw new RuntimeException("Unable to delete directory: " + subFiles.getPath());
+                        throw new RuntimeException("Unable to delete file: " + subFiles.getPath());
                     }
                 }
             }

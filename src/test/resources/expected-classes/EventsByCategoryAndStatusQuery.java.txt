@@ -1,0 +1,7 @@
+package com.kobylynskyi.graphql.test1;
+
+public interface EventsByCategoryAndStatusQuery {
+
+    java.util.Collection<Event> eventsByCategoryAndStatus(String categoryId, EventStatus status);
+
+}

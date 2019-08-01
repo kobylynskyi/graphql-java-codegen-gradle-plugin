@@ -14,7 +14,7 @@ import static com.kobylynskyi.graphql.codegen.model.DataModelFields.*;
  *
  * @author kobylynskyi
  */
-public class InputTypeDefinitionToDataModelMapper {
+public class InputDefinitionToDataModelMapper {
 
     /**
      * Map input type definition to a Freemarker data model

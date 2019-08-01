@@ -91,10 +91,11 @@ class GraphqlCodegen {
     private void generateOperation(ObjectTypeDefinition definition) throws IOException, TemplateException {
         for (FieldDefinition fieldDef : definition.getFieldDefinitions()) {
             Map<String, Object> dataModel = FieldDefinitionToDataModelMapper.map(mappingConfig, fieldDef, definition.getName());
-            generateFile(FreeMarkerTemplatesRegistry.operationTemplate, dataModel);
+            generateFile(FreeMarkerTemplatesRegistry.operationsTemplate, dataModel);
         }
-        // TODO: generate a single interface with all methods
-        // Hack to workaround https://github.com/facebook/relay/issues/112 re-exposing the root query object
+        // We need to generate a root object to workaround https://github.com/facebook/relay/issues/112
+        Map<String, Object> dataModel = ObjectDefinitionToDataModelMapper.map(mappingConfig, definition);
+        generateFile(FreeMarkerTemplatesRegistry.operationsTemplate, dataModel);
     }
 
     private void generateType(ObjectTypeDefinition definition, Document document) throws IOException, TemplateException {
@@ -103,7 +104,7 @@ class GraphqlCodegen {
     }
 
     private void generateInput(InputObjectTypeDefinition definition) throws IOException, TemplateException {
-        Map<String, Object> dataModel = InputTypeDefinitionToDataModelMapper.map(mappingConfig, definition);
+        Map<String, Object> dataModel = InputDefinitionToDataModelMapper.map(mappingConfig, definition);
         generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
     }
 

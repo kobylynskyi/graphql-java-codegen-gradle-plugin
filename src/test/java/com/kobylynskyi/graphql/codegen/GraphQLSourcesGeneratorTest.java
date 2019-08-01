@@ -21,6 +21,7 @@ import java.util.Objects;
 import static java.util.stream.Collectors.toList;
 import static org.gradle.internal.impldep.org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class GraphQLSourcesGeneratorTest {
 
@@ -33,7 +34,7 @@ class GraphQLSourcesGeneratorTest {
     @BeforeEach
     void init() {
         mappingConfig.setJavaPackage("com.kobylynskyi.graphql.test1");
-        generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/test.graphqls"),
+        generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/test.graphqls"),
                 outputBuildDir, mappingConfig);
     }
 
@@ -43,15 +44,19 @@ class GraphQLSourcesGeneratorTest {
 
         File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
         List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
-        assertEquals(Arrays.asList(
-                "CreateEventMutation.java",
-                "Event.java",
-                "EventByIdQuery.java",
-                "EventProperty.java",
-                "EventStatus.java",
-                "EventsByCategoryAndStatusQuery.java",
-                "VersionQuery.java"),
+        assertEquals(Arrays.asList("CreateEventMutation.java", "Event.java", "EventByIdQuery.java",
+                "EventProperty.java", "EventStatus.java", "EventsByCategoryAndStatusQuery.java",
+                "Mutation.java", "Query.java", "VersionQuery.java"),
                 generatedFileNames);
+
+        Arrays.stream(files).forEach(file -> {
+            try {
+                File expected = new File(String.format("src/test/resources/expected-classes/%s.txt", file.getName()));
+                assertEquals(Utils.getFileContent(expected.getPath()), Utils.getFileContent(file.getPath()));
+            } catch (IOException e) {
+                fail(e);
+            }
+        });
     }
 
     @Test
@@ -90,9 +95,8 @@ class GraphQLSourcesGeneratorTest {
                 .filter(file -> file.getName().equalsIgnoreCase("Event.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertThat(Utils.getFileContent(eventFile.getPath()), StringStartsWith.startsWith("\n" +
-                "\n" +
-                "public class Event"));
+        assertThat(Utils.getFileContent(eventFile.getPath()), StringStartsWith.startsWith(
+                System.lineSeparator() + System.lineSeparator() + "public class Event"));
     }
 
     @Test

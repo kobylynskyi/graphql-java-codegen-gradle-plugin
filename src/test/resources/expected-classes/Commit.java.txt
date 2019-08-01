@@ -1,6 +1,6 @@
 package com.github.graphql;
 
-public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineItem {
+public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineItem{
 
     private String abbreviatedOid;
     private Integer additions;

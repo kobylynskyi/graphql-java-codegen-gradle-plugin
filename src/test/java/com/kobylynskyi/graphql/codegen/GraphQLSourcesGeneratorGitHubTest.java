@@ -26,7 +26,7 @@ class GraphQLSourcesGeneratorGitHubTest {
     @BeforeEach
     void init() {
         mappingConfig.setJavaPackage("com.github.graphql");
-        generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/github.graphqls"),
+        generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/github.graphqls"),
                 "build/generated", mappingConfig);
     }
 
@@ -38,7 +38,7 @@ class GraphQLSourcesGeneratorGitHubTest {
         File commitFile = Arrays.stream(files).filter(file -> file.getName().equalsIgnoreCase("Commit.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertEquals(Utils.getFileContent(new File("src/test/resources/Commit_expected.java.txt").getPath()),
+        assertEquals(Utils.getFileContent(new File("src/test/resources/expected-classes/Commit.java.txt").getPath()),
                 Utils.getFileContent(commitFile.getPath()));
     }
 
