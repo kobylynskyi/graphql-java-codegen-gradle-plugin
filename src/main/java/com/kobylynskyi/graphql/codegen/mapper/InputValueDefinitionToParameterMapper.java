@@ -27,7 +27,7 @@ public class InputValueDefinitionToParameterMapper {
     public static Parameter map(MappingConfig mappingConfig, InputValueDefinition inputValueDefinition) {
         Parameter parameter = new Parameter();
         parameter.setName(MapperUtils.capitalizeIfRestricted(inputValueDefinition.getName()));
-        parameter.setType(TypeMapper.mapToJavaType(mappingConfig, inputValueDefinition.getType()));
+        parameter.setType(GraphqlTypeToJavaTypeMapper.mapToJavaType(mappingConfig, inputValueDefinition.getType()));
         return parameter;
     }
 

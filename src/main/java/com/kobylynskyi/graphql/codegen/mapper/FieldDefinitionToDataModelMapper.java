@@ -1,17 +1,15 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.CLASS_NAME;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.OPERATIONS;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.PACKAGE;
-
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.model.Operation;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.FieldDefinition;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.model.Operation;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
+import static com.kobylynskyi.graphql.codegen.model.DataModelFields.*;
 
 /**
  * Map field definition to a Freemarker data model
@@ -29,7 +27,7 @@ public class FieldDefinitionToDataModelMapper {
      * @return Freemarker data model of the GraphQL field
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, FieldDefinition fieldDefinition,
-            String objectType) {
+                                          String objectType) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put(PACKAGE, MapperUtils.getJavaPackageLine(mappingConfig));
         dataModel.put(CLASS_NAME, getClassName(fieldDefinition.getName(), objectType));
@@ -45,10 +43,10 @@ public class FieldDefinitionToDataModelMapper {
      * @param fieldDefinition GraphQL field definition
      * @return Freemarker-understandable format of operation
      */
-    public static Operation mapFieldDefinition(MappingConfig mappingConfig, FieldDefinition fieldDefinition) {
+    static Operation mapFieldDefinition(MappingConfig mappingConfig, FieldDefinition fieldDefinition) {
         Operation operation = new Operation();
         operation.setName(fieldDefinition.getName());
-        operation.setType(TypeMapper.mapToJavaType(mappingConfig, fieldDefinition.getType()));
+        operation.setType(GraphqlTypeToJavaTypeMapper.mapToJavaType(mappingConfig, fieldDefinition.getType()));
         operation.setParameters(
                 InputValueDefinitionToParameterMapper.map(mappingConfig, fieldDefinition.getInputValueDefinitions()));
         return operation;

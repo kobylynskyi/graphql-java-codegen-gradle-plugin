@@ -2,6 +2,8 @@ package com.kobylynskyi.graphql.codegen;
 
 import com.kobylynskyi.graphql.codegen.mapper.*;
 import com.kobylynskyi.graphql.codegen.model.DataModelFields;
+import com.kobylynskyi.graphql.codegen.model.DefinitionType;
+import com.kobylynskyi.graphql.codegen.model.DefinitionTypeDeterminer;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import freemarker.template.Template;

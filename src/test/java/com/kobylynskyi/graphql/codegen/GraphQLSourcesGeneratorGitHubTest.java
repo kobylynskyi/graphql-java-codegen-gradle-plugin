@@ -1,8 +1,12 @@
 package com.kobylynskyi.graphql.codegen;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import freemarker.template.TemplateException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,11 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GraphQLSourcesGeneratorGitHubTest {
 
@@ -28,6 +28,11 @@ class GraphQLSourcesGeneratorGitHubTest {
         mappingConfig.setJavaPackage("com.github.graphql");
         generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/github.graphqls"),
                 "build/generated", mappingConfig);
+    }
+
+    @AfterEach
+    void cleanup() throws IOException {
+        Utils.deleteFolder(new File("build/generated"));
     }
 
     @Test

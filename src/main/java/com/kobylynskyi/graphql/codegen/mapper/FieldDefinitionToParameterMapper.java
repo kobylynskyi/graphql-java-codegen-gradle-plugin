@@ -27,7 +27,7 @@ public class FieldDefinitionToParameterMapper {
     private static Parameter map(MappingConfig mappingConfig, FieldDefinition fieldDefinition) {
         Parameter parameter = new Parameter();
         parameter.setName(MapperUtils.capitalizeIfRestricted(fieldDefinition.getName()));
-        parameter.setType(TypeMapper.mapToJavaType(mappingConfig, fieldDefinition.getType()));
+        parameter.setType(GraphqlTypeToJavaTypeMapper.mapToJavaType(mappingConfig, fieldDefinition.getType()));
         return parameter;
     }
 

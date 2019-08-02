@@ -1,18 +1,15 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.CLASS_NAME;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.OPERATIONS;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.PACKAGE;
-
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.ObjectTypeDefinition;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.model.Operation;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
+import static com.kobylynskyi.graphql.codegen.model.DataModelFields.*;
 
 /**
  * Map object definition to a Freemarker data model

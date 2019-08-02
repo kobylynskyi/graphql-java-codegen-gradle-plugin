@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.codegen.mapper;
+package com.kobylynskyi.graphql.codegen.model;
 
 public enum DefinitionType {
 

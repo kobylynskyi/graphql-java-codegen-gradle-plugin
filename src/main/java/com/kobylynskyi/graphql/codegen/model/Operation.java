@@ -1,6 +1,7 @@
 package com.kobylynskyi.graphql.codegen.model;
 
 import lombok.Data;
+
 import java.util.List;
 
 /**

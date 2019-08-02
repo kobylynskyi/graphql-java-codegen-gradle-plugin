@@ -16,14 +16,14 @@ public class MapperUtils {
             "private", "protected", "public", "return", "short", "static", "strictfp", "super", "switch",
             "synchronized", "this", "throw", "throws", "transient", "true", "try", "void", "volatile", "while"));
 
-    public static String capitalizeIfRestricted(String fieldName) {
+    static String capitalizeIfRestricted(String fieldName) {
         if (JAVA_RESTRICTED_KEYWORDS.contains(fieldName)) {
             return Utils.capitalize(fieldName);
         }
         return fieldName;
     }
 
-    public static String getJavaPackageLine(MappingConfig mappingConfig) {
+    static String getJavaPackageLine(MappingConfig mappingConfig) {
         String javaPackage = mappingConfig.getJavaPackage();
         if (javaPackage == null || javaPackage.trim().isEmpty()) {
             return "";

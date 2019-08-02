@@ -13,9 +13,9 @@ import java.util.Map;
  *
  * @author kobylynskyi
  */
-public class TypeMapper {
+public class GraphqlTypeToJavaTypeMapper {
 
-    public static String mapToJavaType(MappingConfig mappingConfig, Type type) {
+    static String mapToJavaType(MappingConfig mappingConfig, Type type) {
         if (type instanceof TypeName) {
             return mapToJavaType(mappingConfig, ((TypeName) type).getName());
         } else if (type instanceof ListType) {

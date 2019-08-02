@@ -5,6 +5,7 @@ import com.kobylynskyi.graphql.codegen.utils.Utils;
 import freemarker.template.TemplateException;
 import org.gradle.internal.impldep.org.hamcrest.core.StringContains;
 import org.gradle.internal.impldep.org.hamcrest.core.StringStartsWith;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,11 @@ class GraphQLSourcesGeneratorTest {
         mappingConfig.setJavaPackage("com.kobylynskyi.graphql.test1");
         generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/test.graphqls"),
                 outputBuildDir, mappingConfig);
+    }
+
+    @AfterEach
+    void cleanup() throws IOException {
+        Utils.deleteFolder(new File("build/generated"));
     }
 
     @Test

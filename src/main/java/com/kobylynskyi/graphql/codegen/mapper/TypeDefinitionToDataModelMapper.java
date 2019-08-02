@@ -1,26 +1,14 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.CLASS_NAME;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.FIELDS;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.IMPLEMENTS;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.PACKAGE;
-
-import graphql.language.Document;
-import graphql.language.InterfaceTypeDefinition;
-import graphql.language.NamedNode;
-import graphql.language.ObjectTypeDefinition;
-import graphql.language.UnionTypeDefinition;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.Parameter;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
+import graphql.language.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.kobylynskyi.graphql.codegen.model.DataModelFields.*;
 
 /**
  * Map type definition to a Freemarker data model
@@ -63,8 +51,8 @@ public class TypeDefinitionToDataModelMapper {
     /**
      * Iterate through all unions and find all unions that given definition is part of
      *
-     * @param definition    GraphQL type definition
-     * @param document      Parent GraphQL document
+     * @param definition GraphQL type definition
+     * @param document   Parent GraphQL document
      * @return Unions names that given definition is part of
      */
     private static List<String> getUnionsHavingType(ObjectTypeDefinition definition,
@@ -99,7 +87,7 @@ public class TypeDefinitionToDataModelMapper {
             return Collections.emptyList();
         }
         Set<String> typeImplements = definition.getImplements().stream()
-                .map(type -> TypeMapper.mapToJavaType(mappingConfig, type))
+                .map(type -> GraphqlTypeToJavaTypeMapper.mapToJavaType(mappingConfig, type))
                 .collect(Collectors.toSet());
         return document.getDefinitions().stream()
                 .filter(def -> def instanceof InterfaceTypeDefinition)
