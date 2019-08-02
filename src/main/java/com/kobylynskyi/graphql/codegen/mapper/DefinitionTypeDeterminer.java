@@ -1,6 +1,6 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
-import com.kobylynskyi.graphql.codegen.exception.UnsupportedGraphqlDefinitionException;
+import com.kobylynskyi.graphql.codegen.UnsupportedGraphqlDefinitionException;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.*;
 

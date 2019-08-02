@@ -38,25 +38,21 @@ public final class Utils {
         return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 
-    public static void deleteFolder(File folder) {
+    public static void deleteFolder(File folder) throws IOException {
         if (!folder.exists()) {
             return;
         }
         File[] files = folder.listFiles();
         if (files != null) { //some JVMs return null for empty dirs
-            for (File subFiles : files) {
-                if (subFiles.isDirectory()) {
-                    deleteFolder(subFiles);
+            for (File subFile : files) {
+                if (subFile.isDirectory()) {
+                    deleteFolder(subFile);
                 } else {
-                    boolean deleted = subFiles.delete();
-                    if (!deleted) {
-                        throw new RuntimeException("Unable to delete file: " + subFiles.getPath());
-                    }
+                    Files.delete(subFile.toPath());
                 }
             }
         }
-        boolean deleted = folder.delete();
-        assert deleted : "Unable to delete directory: " + folder.getPath();
+        Files.delete(folder.toPath());
     }
 
 }

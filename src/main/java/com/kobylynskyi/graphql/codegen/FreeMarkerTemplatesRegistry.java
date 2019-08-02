@@ -6,12 +6,12 @@ import freemarker.template.TemplateExceptionHandler;
 
 import java.io.IOException;
 
-public class FreeMarkerTemplatesRegistry {
+class FreeMarkerTemplatesRegistry {
 
-    public static Template typeTemplate;
-    public static Template enumTemplate;
-    public static Template unionTemplate;
-    public static Template operationsTemplate;
+    static Template typeTemplate;
+    static Template enumTemplate;
+    static Template unionTemplate;
+    static Template operationsTemplate;
 
     static {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
@@ -27,7 +27,7 @@ public class FreeMarkerTemplatesRegistry {
             unionTemplate = configuration.getTemplate("templates/javaClassGraphqlUnion.ftl");
             operationsTemplate = configuration.getTemplate("templates/javaClassGraphqlOperations.ftl");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to load FreeMarker templates", e);
         }
     }
 }

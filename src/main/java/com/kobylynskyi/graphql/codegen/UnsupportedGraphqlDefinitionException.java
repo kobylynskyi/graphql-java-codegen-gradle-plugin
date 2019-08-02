@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.codegen.exception;
+package com.kobylynskyi.graphql.codegen;
 
 import graphql.language.Definition;
 
