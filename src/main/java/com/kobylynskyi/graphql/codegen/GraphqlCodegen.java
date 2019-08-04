@@ -49,9 +49,11 @@ class GraphqlCodegen {
     void generate() throws IOException, TemplateException {
         classesOutputDir = prepareOutputDir(outputDir, mappingConfig);
         for (String schema : schemas) {
+            long startTime = System.currentTimeMillis();
             Document document = GraphqlDocumentParser.getDocument(schema);
             addScalarsToCustomMappingConfig(document);
             processDocument(document);
+            System.out.println(String.format("Finished processing schema '%s' in %d ms", schema, System.currentTimeMillis() - startTime));
         }
     }
 
@@ -78,6 +80,8 @@ class GraphqlCodegen {
                     generateUnion((UnionTypeDefinition) definition);
             }
         }
+        System.out.println(String.format("Generated %d definitions in folder '%s'", document.getDefinitions().size(),
+                classesOutputDir.getAbsolutePath()));
     }
 
     private void generateUnion(UnionTypeDefinition definition) throws IOException, TemplateException {

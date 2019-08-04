@@ -15,7 +15,7 @@ apply plugin: "java"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 
-version = "1.0-SNAPSHOT"
+version = "1.0"
 group = "com.kobylynskyi.graphql.codegen"
 
 dependencies {
@@ -29,16 +29,6 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
-}
-
-publishing {
-    publications {
-        pluginPublication (MavenPublication) {
-            groupId project.group
-            artifactId "demo"
-            version project.version
-        }
-    }
 }
 
 gradlePlugin {
@@ -57,5 +47,3 @@ pluginBundle {
     description = 'Gradle plugin for GraphQL Java code generation'
     tags = ['graphql-java', 'graphql-codegen-plugin']
 }
-
-sourceSets.main.java.srcDir 'build/generated'
