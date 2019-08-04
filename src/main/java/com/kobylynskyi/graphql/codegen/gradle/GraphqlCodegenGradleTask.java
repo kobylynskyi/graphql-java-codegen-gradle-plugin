@@ -4,6 +4,7 @@ import com.kobylynskyi.graphql.codegen.GraphqlCodegen;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import freemarker.template.TemplateException;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
@@ -32,6 +33,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
 
+    @Input
     public List<String> getGraphqlSchemaPaths() {
         return graphqlSchemaPaths;
     }
@@ -49,6 +51,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.outputDir = outputDir;
     }
 
+    @Input
     public Map<String, String> getCustomTypesMapping() {
         return customTypesMapping;
     }
@@ -57,6 +60,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.customTypesMapping = customTypesMapping;
     }
 
+    @Input
     public String getJavaPackage() {
         return javaPackage;
     }

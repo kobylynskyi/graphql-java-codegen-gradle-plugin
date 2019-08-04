@@ -1,9 +1,8 @@
 package com.kobylynskyi.graphql.codegen.gradle;
 
 import com.kobylynskyi.graphql.codegen.GraphqlCodegenValidate;
-import lombok.Getter;
-import lombok.Setter;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.IOException;
@@ -14,8 +13,6 @@ import java.util.List;
  *
  * @author kobylynskyi
  */
-@Getter
-@Setter
 public class GraphqlCodegenValidateGradleTask extends DefaultTask {
 
     private List<String> graphqlSchemaPaths;
@@ -25,4 +22,12 @@ public class GraphqlCodegenValidateGradleTask extends DefaultTask {
         new GraphqlCodegenValidate(graphqlSchemaPaths).validate();
     }
 
+    @Input
+    public List<String> getGraphqlSchemaPaths() {
+        return graphqlSchemaPaths;
+    }
+
+    public void setGraphqlSchemaPaths(List<String> graphqlSchemaPaths) {
+        this.graphqlSchemaPaths = graphqlSchemaPaths;
+    }
 }
