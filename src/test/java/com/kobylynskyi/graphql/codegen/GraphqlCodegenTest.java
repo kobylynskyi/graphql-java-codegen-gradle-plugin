@@ -24,7 +24,7 @@ import static org.gradle.internal.impldep.org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-class GraphQLSourcesGeneratorTest {
+class GraphqlCodegenTest {
 
     private GraphqlCodegen generator;
 

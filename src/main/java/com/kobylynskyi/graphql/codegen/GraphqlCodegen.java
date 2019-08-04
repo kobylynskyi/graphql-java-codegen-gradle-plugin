@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-class GraphqlCodegen {
+public class GraphqlCodegen {
 
     private List<String> schemas;
     private String outputDir;
@@ -40,13 +40,13 @@ class GraphqlCodegen {
 
     private File classesOutputDir;
 
-    GraphqlCodegen(List<String> schemas, String outputDir, MappingConfig mappingConfig) {
+    public GraphqlCodegen(List<String> schemas, String outputDir, MappingConfig mappingConfig) {
         this.schemas = schemas;
         this.outputDir = outputDir;
         this.mappingConfig = mappingConfig;
     }
 
-    void generate() throws IOException, TemplateException {
+    public void generate() throws IOException, TemplateException {
         classesOutputDir = prepareOutputDir(outputDir, mappingConfig);
         for (String schema : schemas) {
             long startTime = System.currentTimeMillis();

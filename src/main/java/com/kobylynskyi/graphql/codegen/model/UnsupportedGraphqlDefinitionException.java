@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.codegen;
+package com.kobylynskyi.graphql.codegen.model;
 
 import graphql.language.Definition;
 

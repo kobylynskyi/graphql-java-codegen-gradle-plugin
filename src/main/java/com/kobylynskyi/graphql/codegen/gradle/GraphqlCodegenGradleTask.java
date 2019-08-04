@@ -1,5 +1,6 @@
-package com.kobylynskyi.graphql.codegen;
+package com.kobylynskyi.graphql.codegen.gradle;
 
+import com.kobylynskyi.graphql.codegen.GraphqlCodegen;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import freemarker.template.TemplateException;
 import org.gradle.api.DefaultTask;
@@ -16,7 +17,7 @@ import java.util.Map;
  *
  * @author kobylynskyi
  */
-public class GraphqlCodegenTask extends DefaultTask {
+public class GraphqlCodegenGradleTask extends DefaultTask {
 
     private List<String> graphqlSchemaPaths;
     private String outputDir;
