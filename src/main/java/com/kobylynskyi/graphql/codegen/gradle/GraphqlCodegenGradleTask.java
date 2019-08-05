@@ -5,6 +5,7 @@ import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import freemarker.template.TemplateException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
@@ -51,7 +52,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.outputDir = outputDir;
     }
 
-    @Input
+    @Input @Optional
     public Map<String, String> getCustomTypesMapping() {
         return customTypesMapping;
     }
@@ -60,7 +61,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.customTypesMapping = customTypesMapping;
     }
 
-    @Input
+    @Input @Optional
     public String getJavaPackage() {
         return javaPackage;
     }
