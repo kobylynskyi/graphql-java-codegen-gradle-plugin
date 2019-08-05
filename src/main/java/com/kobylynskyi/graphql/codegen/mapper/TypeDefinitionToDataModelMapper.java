@@ -3,7 +3,9 @@ package com.kobylynskyi.graphql.codegen.mapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.Parameter;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
-import graphql.language.*;
+import graphql.language.Document;
+import graphql.language.InterfaceTypeDefinition;
+import graphql.language.ObjectTypeDefinition;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,48 +30,20 @@ public class TypeDefinitionToDataModelMapper {
     public static Map<String, Object> map(MappingConfig mappingConfig, ObjectTypeDefinition typeDefinition,
                                           Document document) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, MapperUtils.getJavaPackageLine(mappingConfig));
+        dataModel.put(PACKAGE, mappingConfig.getJavaPackage());
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
-        dataModel.put(IMPLEMENTS, getUnionsHavingType(typeDefinition, document));
+        dataModel.put(IMPLEMENTS, MapperUtils.getUnionsHavingType(typeDefinition, document));
 
-        List<Parameter> typeParameters = FieldDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getFieldDefinitions());
-        Set<Parameter> allParameters = new LinkedHashSet<>(typeParameters);
+        Set<Parameter> allParameters = new LinkedHashSet<>();
+        // Merge attributes from the type and attributes from the interface
+        allParameters.addAll(FieldDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getFieldDefinitions()));
         List<InterfaceTypeDefinition> interfaces = getInterfacesOfType(mappingConfig, typeDefinition, document);
         interfaces.stream()
                 .map(i -> FieldDefinitionToParameterMapper.map(mappingConfig, i.getFieldDefinitions()))
                 .forEach(allParameters::addAll);
         dataModel.put(FIELDS, allParameters);
 
-        // FIXME: consider:
-        //   blame(
-        //    path: String!
-        //  ): Blame!
-
         return dataModel;
-    }
-
-    /**
-     * Iterate through all unions and find all unions that given definition is part of
-     *
-     * @param definition GraphQL type definition
-     * @param document   Parent GraphQL document
-     * @return Unions names that given definition is part of
-     */
-    private static List<String> getUnionsHavingType(ObjectTypeDefinition definition,
-                                                    Document document) {
-        return document.getDefinitions().stream()
-                .filter(def -> def instanceof UnionTypeDefinition)
-                .map(def -> (UnionTypeDefinition) def)
-                .filter(union -> isDefinitionPartOfUnion(definition, union))
-                .map(UnionTypeDefinition::getName)
-                .collect(Collectors.toList());
-    }
-
-    private static boolean isDefinitionPartOfUnion(ObjectTypeDefinition definition, UnionTypeDefinition union) {
-        return union.getMemberTypes().stream()
-                .filter(member -> member instanceof NamedNode)
-                .map(member -> (NamedNode) member)
-                .anyMatch(member -> member.getName().equals(definition.getName()));
     }
 
     /**

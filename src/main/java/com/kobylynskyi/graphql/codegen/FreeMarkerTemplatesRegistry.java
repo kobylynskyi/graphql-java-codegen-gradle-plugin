@@ -11,6 +11,7 @@ class FreeMarkerTemplatesRegistry {
     static Template typeTemplate;
     static Template enumTemplate;
     static Template unionTemplate;
+    static Template interfaceTemplate;
     static Template operationsTemplate;
 
     static {
@@ -25,6 +26,7 @@ class FreeMarkerTemplatesRegistry {
             typeTemplate = configuration.getTemplate("templates/javaClassGraphqlType.ftl");
             enumTemplate = configuration.getTemplate("templates/javaClassGraphqlEnum.ftl");
             unionTemplate = configuration.getTemplate("templates/javaClassGraphqlUnion.ftl");
+            interfaceTemplate = configuration.getTemplate("templates/javaClassGraphqlInterface.ftl");
             operationsTemplate = configuration.getTemplate("templates/javaClassGraphqlOperations.ftl");
         } catch (IOException e) {
             throw new RuntimeException("Unable to load FreeMarker templates", e);

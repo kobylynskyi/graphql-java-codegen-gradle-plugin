@@ -101,8 +101,7 @@ class GraphqlCodegenTest {
                 .filter(file -> file.getName().equalsIgnoreCase("Event.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertThat(Utils.getFileContent(eventFile.getPath()), StringStartsWith.startsWith(
-                System.lineSeparator() + System.lineSeparator() + "public class Event"));
+        assertThat(Utils.getFileContent(eventFile.getPath()), StringStartsWith.startsWith("public class Event"));
     }
 
     @Test

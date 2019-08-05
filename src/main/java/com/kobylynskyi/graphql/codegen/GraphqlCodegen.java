@@ -91,7 +91,7 @@ public class GraphqlCodegen {
 
     private void generateInterface(InterfaceTypeDefinition definition) throws IOException, TemplateException {
         Map<String, Object> dataModel = InterfaceDefinitionToDataModelMapper.map(mappingConfig, definition);
-        generateFile(FreeMarkerTemplatesRegistry.typeTemplate, dataModel);
+        generateFile(FreeMarkerTemplatesRegistry.interfaceTemplate, dataModel);
     }
 
     private void generateOperation(ObjectTypeDefinition definition) throws IOException, TemplateException {

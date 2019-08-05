@@ -30,7 +30,7 @@ class GraphqlCodegenGitHubTest {
                 "build/generated", mappingConfig);
     }
 
-    @AfterEach
+    //@AfterEach
     void cleanup() throws IOException {
         Utils.deleteFolder(new File("build/generated"));
     }
@@ -42,9 +42,14 @@ class GraphqlCodegenGitHubTest {
         File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
         File commitFile = Arrays.stream(files).filter(file -> file.getName().equalsIgnoreCase("Commit.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
-
         assertEquals(Utils.getFileContent(new File("src/test/resources/expected-classes/Commit.java.txt").getPath()),
                 Utils.getFileContent(commitFile.getPath()));
+
+
+        File profileOwner = Arrays.stream(files).filter(file -> file.getName().equalsIgnoreCase("ProfileOwner.java"))
+                .findFirst().orElseThrow(FileNotFoundException::new);
+        assertEquals(Utils.getFileContent(new File("src/test/resources/expected-classes/ProfileOwner.java.txt").getPath()),
+                Utils.getFileContent(profileOwner.getPath()));
     }
 
 }

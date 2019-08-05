@@ -26,7 +26,7 @@ public class UnionDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, UnionTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, MapperUtils.getJavaPackageLine(mappingConfig));
+        dataModel.put(PACKAGE, mappingConfig.getJavaPackage());
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
         return dataModel;
     }
