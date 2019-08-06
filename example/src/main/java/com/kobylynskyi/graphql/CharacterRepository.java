@@ -1,9 +1,10 @@
-package com.kobylynskyi.graphql.example;
+package com.kobylynskyi.graphql;
 
-import com.kobylynskyi.graphql.example.model.Character;
-import com.kobylynskyi.graphql.example.model.Droid;
-import com.kobylynskyi.graphql.example.model.Episode;
-import com.kobylynskyi.graphql.example.model.Human;
+import com.kobylynskyi.graphql.model.Character;
+import com.kobylynskyi.graphql.model.Droid;
+import com.kobylynskyi.graphql.model.Episode;
+import com.kobylynskyi.graphql.model.Human;
+
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,10 @@
-package com.kobylynskyi.graphql.example;
+package com.kobylynskyi.graphql;
 
-import com.kobylynskyi.graphql.example.mappers.HumanMapper;
-import com.yepco.graphql.CreateHumanInput;
-import com.yepco.graphql.CreateHumanMutation;
-import com.yepco.graphql.Human;
+import com.kobylynskyi.graphql.codegen.CreateHumanInput;
+import com.kobylynskyi.graphql.codegen.CreateHumanMutation;
+import com.kobylynskyi.graphql.codegen.Human;
+import com.kobylynskyi.graphql.mappers.HumanMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

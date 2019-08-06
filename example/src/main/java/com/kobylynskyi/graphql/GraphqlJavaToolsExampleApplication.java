@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.example;
+package com.kobylynskyi.graphql;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

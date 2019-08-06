@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.example.model;
+package com.kobylynskyi.graphql.model;
 
 public enum Episode {
     NEWHOPE,

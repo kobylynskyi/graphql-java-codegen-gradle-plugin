@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.example.model;
+package com.kobylynskyi.graphql.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Character {
+public abstract class Character {
 
     private String id;
     private String name;
