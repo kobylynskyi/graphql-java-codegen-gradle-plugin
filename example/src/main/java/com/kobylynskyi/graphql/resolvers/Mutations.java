@@ -1,20 +1,21 @@
-package com.kobylynskyi.graphql;
+package com.kobylynskyi.graphql.resolvers;
 
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.kobylynskyi.graphql.CharacterRepository;
 import com.kobylynskyi.graphql.codegen.CreateHumanInput;
 import com.kobylynskyi.graphql.codegen.CreateHumanMutation;
 import com.kobylynskyi.graphql.codegen.Human;
-import com.kobylynskyi.graphql.mappers.HumanMapper;
-
+import com.kobylynskyi.graphql.mappers.CharacterMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GraphqlMutation implements CreateHumanMutation {
+public class Mutations implements CreateHumanMutation, GraphQLMutationResolver {
 
     @Autowired
     private CharacterRepository repository;
     @Autowired
-    private HumanMapper mapper;
+    private CharacterMapper mapper;
 
     @Override
     public Human createHuman(CreateHumanInput input) {
