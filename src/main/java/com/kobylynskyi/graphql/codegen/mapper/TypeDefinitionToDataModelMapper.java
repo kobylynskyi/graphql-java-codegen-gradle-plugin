@@ -32,7 +32,12 @@ public class TypeDefinitionToDataModelMapper {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put(PACKAGE, mappingConfig.getJavaPackage());
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
-        dataModel.put(IMPLEMENTS, MapperUtils.getUnionsHavingType(typeDefinition, document));
+        Set<String> allInterfaces = new LinkedHashSet<>();
+        allInterfaces.addAll(MapperUtils.getUnionsHavingType(typeDefinition, document));
+        typeDefinition.getImplements().stream()
+                .map(anImplement -> GraphqlTypeToJavaTypeMapper.mapToJavaType(mappingConfig, anImplement))
+                .forEach(allInterfaces::add);
+        dataModel.put(IMPLEMENTS, allInterfaces);
 
         Set<Parameter> allParameters = new LinkedHashSet<>();
         // Merge attributes from the type and attributes from the interface
