@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Mutations implements CreateHumanMutation, GraphQLMutationResolver {
+public class Mutation implements CreateHumanMutation, GraphQLMutationResolver {
 
     @Autowired
     private CharacterRepository repository;

@@ -1,1 +1,2 @@
-rootProject.name = 'graphql-codegen-gradle-plugin'
+include  'graphql-codegen-gradle-plugin'
+include  'graphql-codegen-gradle-plugin-example'

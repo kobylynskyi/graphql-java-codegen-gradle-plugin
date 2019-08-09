@@ -1,5 +1,6 @@
 package com.kobylynskyi.graphql.resolvers;
 
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.kobylynskyi.graphql.CharacterRepository;
 import com.kobylynskyi.graphql.codegen.Character;
 import com.kobylynskyi.graphql.codegen.*;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Queries implements HeroQuery, HumanQuery, DroidQuery, CharacterQuery {
+public class Query implements HeroQuery, HumanQuery, DroidQuery, CharacterQuery, GraphQLQueryResolver {
 
     @Autowired
     private CharacterRepository repository;
