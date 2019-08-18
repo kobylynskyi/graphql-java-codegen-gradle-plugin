@@ -1,7 +1,6 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.InterfaceTypeDefinition;
 
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class InterfaceDefinitionToDataModelMapper {
     public static Map<String, Object> map(MappingConfig mappingConfig, InterfaceTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put(PACKAGE, mappingConfig.getPackageName());
-        dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
+        dataModel.put(CLASS_NAME, MapperUtils.generateClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
         dataModel.put(FIELDS, FieldDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getFieldDefinitions()));
         return dataModel;
     }

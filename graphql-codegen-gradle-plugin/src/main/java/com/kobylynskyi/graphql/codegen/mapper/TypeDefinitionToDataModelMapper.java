@@ -2,7 +2,6 @@ package com.kobylynskyi.graphql.codegen.mapper;
 
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.Parameter;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.Document;
 import graphql.language.InterfaceTypeDefinition;
 import graphql.language.ObjectTypeDefinition;
@@ -31,9 +30,9 @@ public class TypeDefinitionToDataModelMapper {
                                           Document document) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put(PACKAGE, mappingConfig.getPackageName());
-        dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
+        dataModel.put(CLASS_NAME, MapperUtils.generateClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
         Set<String> allInterfaces = new LinkedHashSet<>();
-        allInterfaces.addAll(MapperUtils.getUnionsHavingType(typeDefinition, document));
+        allInterfaces.addAll(MapperUtils.getUnionsHavingType(mappingConfig, typeDefinition, document));
         typeDefinition.getImplements().stream()
                 .map(anImplement -> GraphqlTypeToJavaTypeMapper.mapToJavaType(mappingConfig, anImplement))
                 .forEach(allInterfaces::add);

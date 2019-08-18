@@ -40,8 +40,13 @@ public class GraphqlTypeToJavaTypeMapper {
                 return "String";
             case "Int":
                 return "Integer";
-            default: // String, Float, Boolean
+            case "String":
+            case "Float":
+            case "Boolean":
                 return graphlType;
+            default:
+                // We need to refer other custom types/interfaces/unions with prefix and suffix
+                return MapperUtils.generateClassNameWithPrefixAndSuffix(mappingConfig, graphlType);
         }
     }
 

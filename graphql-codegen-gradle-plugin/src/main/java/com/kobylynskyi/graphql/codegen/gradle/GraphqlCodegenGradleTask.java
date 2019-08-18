@@ -25,12 +25,16 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private String outputDir;
     private Map<String, String> customTypesMapping;
     private String packageName;
+    private String modelNamePrefix;
+    private String modelNameSuffix;
 
     @TaskAction
     public void generate() throws IOException, TemplateException {
         MappingConfig mappingConfig = new MappingConfig();
         mappingConfig.setPackageName(packageName);
         mappingConfig.setCustomTypesMapping(customTypesMapping != null ? customTypesMapping : new HashMap<>());
+        mappingConfig.setModelNamePrefix(modelNamePrefix);
+        mappingConfig.setModelNameSuffix(modelNameSuffix);
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
 
@@ -72,4 +76,23 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.packageName = packageName;
     }
 
+    @Input
+    @Optional
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
+    public void setModelNameSuffix(String modelNameSuffix) {
+        this.modelNameSuffix = modelNameSuffix;
+    }
+
+    @Input
+    @Optional
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
+    }
+
+    public void setModelNamePrefix(String modelNamePrefix) {
+        this.modelNamePrefix = modelNamePrefix;
+    }
 }

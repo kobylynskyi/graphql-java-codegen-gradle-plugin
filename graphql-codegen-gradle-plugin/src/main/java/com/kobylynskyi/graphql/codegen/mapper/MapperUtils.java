@@ -1,5 +1,6 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
+import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.Document;
 import graphql.language.NamedNode;
@@ -39,17 +40,20 @@ public class MapperUtils {
     /**
      * Iterate through all unions across the document and find all that given <code>definition</code> is part of.
      *
-     * @param definition GraphQL NamedNode definition
-     * @param document   Parent GraphQL document
+     * @param mappingConfig Global mapping configuration
+     * @param definition    GraphQL NamedNode definition
+     * @param document      Parent GraphQL document
      * @return Names of all unions that requested <code>definition</code> is part of.
      */
-    static List<String> getUnionsHavingType(NamedNode definition,
+    static List<String> getUnionsHavingType(MappingConfig mappingConfig,
+                                            NamedNode definition,
                                             Document document) {
         return document.getDefinitions().stream()
                 .filter(def -> def instanceof UnionTypeDefinition)
                 .map(def -> (UnionTypeDefinition) def)
                 .filter(union -> isDefinitionPartOfUnion(definition, union))
                 .map(UnionTypeDefinition::getName)
+                .map(unionName -> generateClassNameWithPrefixAndSuffix(mappingConfig, unionName))
                 .collect(Collectors.toList());
     }
 
@@ -67,4 +71,35 @@ public class MapperUtils {
                 .map(member -> (NamedNode) member)
                 .anyMatch(member -> member.getName().equals(definition.getName()));
     }
+
+    /**
+     * Generates a class name including prefix and suffix (if any)
+     *
+     * @param mappingConfig Global mapping configuration
+     * @param definition    GraphQL node
+     * @return Class name of GraphQL node
+     */
+    public static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, NamedNode definition) {
+        return generateClassNameWithPrefixAndSuffix(mappingConfig, definition.getName());
+    }
+
+    /**
+     * Generates a class name including prefix and suffix (if any)
+     *
+     * @param mappingConfig  Global mapping configuration
+     * @param definitionName GraphQL node name
+     * @return Class name of GraphQL node
+     */
+    public static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, String definitionName) {
+        StringBuilder classNameBuilder = new StringBuilder();
+        if (mappingConfig.getModelNamePrefix() != null) {
+            classNameBuilder.append(mappingConfig.getModelNamePrefix());
+        }
+        classNameBuilder.append(Utils.capitalize(definitionName));
+        if (mappingConfig.getModelNameSuffix() != null) {
+            classNameBuilder.append(mappingConfig.getModelNameSuffix());
+        }
+        return classNameBuilder.toString();
+    }
+
 }

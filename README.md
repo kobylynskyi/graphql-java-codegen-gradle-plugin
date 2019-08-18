@@ -71,11 +71,11 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 | packageName             | String             | Empty         | Java package for generated classes. |
 | outputDir               | String             | None          | The output target directory into which code will be generated. |
 | customTypesMapping      | Map(String,String) | Empty         | Map of (GraphQL Schema Type) to (Java Type). Can be used to supply custom mappings for scalars. |
+| modelNamePrefix         | String             | Empty         | Sets the prefix for GraphQL model classes (type, input, interface, enum, union). |
+| modelNameSuffix         | String             | Empty         | Sets the suffix for GraphQL model classes (type, input, interface, enum, union). |
 | -                       | -                  | -             | -           |
 | **TBD** apiPackage      | String             | Empty         |             |
 | **TBD** modelPackage    | String             | Empty         |             |
-| **TBD** modelNamePrefix | String             | Empty         |             |
-| **TBD** modelNameSuffix | String             | Empty         |             |
 
 
 ### Example
