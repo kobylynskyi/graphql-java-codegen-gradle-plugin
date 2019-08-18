@@ -2,6 +2,6 @@ package com.kobylynskyi.graphql.test1;
 
 public interface EventByIdQuery {
 
-    Event eventById(String id);
+    Event eventById(String id) throws Exception;
 
 }

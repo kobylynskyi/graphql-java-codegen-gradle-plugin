@@ -2,6 +2,6 @@ package com.kobylynskyi.graphql.test1;
 
 public interface Mutation {
 
-    Event createEvent(String categoryId, String createdBy);
+    Event createEvent(String categoryId, String createdBy) throws Exception;
 
 }
