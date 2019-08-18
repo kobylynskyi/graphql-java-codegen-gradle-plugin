@@ -9,7 +9,7 @@ plugins {
     id "java"
     id "net.ltgt.apt" version "0.21"
     id "net.ltgt.apt-idea" version "0.21"
-    id "com.kobylynskyi.graphql.codegen" version "0.1"
+    id "com.kobylynskyi.graphql.codegen" version "0.2-SNAPSHOT"
 }
 
 ext {
@@ -21,7 +21,7 @@ ext {
 }
 
 group = "com.kobylynskyi"
-version = "0.1-SNAPSHOT"
+version = "0.2-SNAPSHOT"
 description = "graphql-java-codegen-example"
 sourceCompatibility = "1.8"
 
