@@ -36,13 +36,32 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 ### Plugin Configuration
 
     graphqlCodegen {
-        graphqlSchemaPaths = ["$projectDir/src/main/resources/schema.graphqls".toString()]
+        graphqlSchemaPaths = [
+            "$projectDir/src/main/resources/schema.graphqls".toString()
+        ]
         outputDir = "$buildDir/generated/graphql"
         packageName = "com.example.graphql.model"
         customTypesMapping = [
             DateTime: "org.joda.time.DateTime"
         ]
     }
+### Additional Configurations
+
+* Automatically generate GraphQL code on project build:
+   ```
+   compileJava.dependsOn 'graphqlCodegen'
+   ```
+* Add generated sources to your project source sets:
+   ```
+   sourceSets {
+       main {
+           java {
+               srcDir "$buildDir/generated/graphql"
+           }
+       }
+   }
+   ```
+
 
 #### Plugin Options
 
