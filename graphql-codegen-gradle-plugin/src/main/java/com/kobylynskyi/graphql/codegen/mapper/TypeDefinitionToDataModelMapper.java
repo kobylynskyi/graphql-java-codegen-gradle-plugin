@@ -29,8 +29,10 @@ public class TypeDefinitionToDataModelMapper {
     public static Map<String, Object> map(MappingConfig mappingConfig, ObjectTypeDefinition typeDefinition,
                                           Document document) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, MapperUtils.getModelPackageName(mappingConfig));
-        dataModel.put(CLASS_NAME, MapperUtils.generateClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
+        String packageName = MapperUtils.getModelPackageName(mappingConfig);
+        dataModel.put(PACKAGE, packageName);
+        dataModel.put(IMPORTS, MapperUtils.getImports(mappingConfig, packageName));
+        dataModel.put(CLASS_NAME, MapperUtils.getClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
         Set<String> allInterfaces = new LinkedHashSet<>();
         allInterfaces.addAll(MapperUtils.getUnionsHavingType(mappingConfig, typeDefinition, document));
         typeDefinition.getImplements().stream()

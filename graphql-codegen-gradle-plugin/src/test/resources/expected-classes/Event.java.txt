@@ -1,10 +1,12 @@
 package com.kobylynskyi.graphql.test1;
 
+import java.util.*;
+
 public class Event {
 
     private String id;
     private String categoryId;
-    private java.util.Collection<EventProperty> properties;
+    private Collection<EventProperty> properties;
     private EventStatus status;
     private String createdBy;
     private String createdDateTime;
@@ -28,10 +30,10 @@ public class Event {
         this.categoryId = categoryId;
     }
 
-    public java.util.Collection<EventProperty> getProperties() {
+    public Collection<EventProperty> getProperties() {
         return properties;
     }
-    public void setProperties(java.util.Collection<EventProperty> properties) {
+    public void setProperties(Collection<EventProperty> properties) {
         this.properties = properties;
     }
 

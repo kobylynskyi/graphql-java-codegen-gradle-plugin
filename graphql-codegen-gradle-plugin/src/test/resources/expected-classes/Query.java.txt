@@ -1,10 +1,12 @@
 package com.kobylynskyi.graphql.test1;
 
+import java.util.*;
+
 public interface Query {
 
     String version() throws Exception;
 
-    java.util.Collection<Event> eventsByCategoryAndStatus(String categoryId, EventStatus status) throws Exception;
+    Collection<Event> eventsByCategoryAndStatus(String categoryId, EventStatus status) throws Exception;
 
     Event eventById(String id) throws Exception;
 

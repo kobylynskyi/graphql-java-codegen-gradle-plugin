@@ -102,13 +102,15 @@ public final class Utils {
      * Create directory if it is absent. Will do nothing if it is already present.
      *
      * @param dir to create if it is absent.
+     * @throws IOException if unable to create a directory
      */
     public static void createDirIfAbsent(File dir) throws IOException {
-        if (!dir.exists()) {
-            boolean outputDirCreated = dir.mkdirs();
-            if (!outputDirCreated) {
-                throw new IOException("Unable to create output directory");
-            }
+        if (dir.exists()) {
+            return;
+        }
+        boolean outputDirCreated = dir.mkdirs();
+        if (!outputDirCreated) {
+            throw new IOException("Unable to create output directory");
         }
     }
 }

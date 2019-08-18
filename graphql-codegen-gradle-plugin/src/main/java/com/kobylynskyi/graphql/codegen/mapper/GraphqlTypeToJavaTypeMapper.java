@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author kobylynskyi
  */
-public class GraphqlTypeToJavaTypeMapper {
+class GraphqlTypeToJavaTypeMapper {
 
     static String mapToJavaType(MappingConfig mappingConfig, Type type) {
         if (type instanceof TypeName) {
@@ -27,7 +27,7 @@ public class GraphqlTypeToJavaTypeMapper {
     }
 
     private static String wrapIntoJavaCollection(String type) {
-        return String.format("java.util.Collection<%s>", type);
+        return String.format("Collection<%s>", type);
     }
 
     private static String mapToJavaType(MappingConfig mappingConfig, String graphlType) {
@@ -46,7 +46,7 @@ public class GraphqlTypeToJavaTypeMapper {
                 return graphlType;
             default:
                 // We need to refer other custom types/interfaces/unions with prefix and suffix
-                return MapperUtils.generateClassNameWithPrefixAndSuffix(mappingConfig, graphlType);
+                return MapperUtils.getClassNameWithPrefixAndSuffix(mappingConfig, graphlType);
         }
     }
 

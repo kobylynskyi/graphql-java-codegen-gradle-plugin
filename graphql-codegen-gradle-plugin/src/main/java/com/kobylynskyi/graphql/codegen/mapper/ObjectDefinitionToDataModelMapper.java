@@ -27,7 +27,9 @@ public class ObjectDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, ObjectTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, MapperUtils.getApiPackageName(mappingConfig));
+        String packageName = MapperUtils.getApiPackageName(mappingConfig);
+        dataModel.put(PACKAGE, packageName);
+        dataModel.put(IMPORTS, MapperUtils.getImports(mappingConfig, packageName));
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
         List<Object> operations = typeDefinition.getFieldDefinitions().stream()
                 .map(fieldDef -> FieldDefinitionToDataModelMapper.mapFieldDefinition(mappingConfig, fieldDef))

@@ -53,7 +53,7 @@ public class MapperUtils {
                 .map(def -> (UnionTypeDefinition) def)
                 .filter(union -> isDefinitionPartOfUnion(definition, union))
                 .map(UnionTypeDefinition::getName)
-                .map(unionName -> generateClassNameWithPrefixAndSuffix(mappingConfig, unionName))
+                .map(unionName -> getClassNameWithPrefixAndSuffix(mappingConfig, unionName))
                 .collect(Collectors.toList());
     }
 
@@ -79,8 +79,8 @@ public class MapperUtils {
      * @param definition    GraphQL node
      * @return Class name of GraphQL node
      */
-    static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, NamedNode definition) {
-        return generateClassNameWithPrefixAndSuffix(mappingConfig, definition.getName());
+    static String getClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, NamedNode definition) {
+        return getClassNameWithPrefixAndSuffix(mappingConfig, definition.getName());
     }
 
     /**
@@ -90,7 +90,7 @@ public class MapperUtils {
      * @param definitionName GraphQL node name
      * @return Class name of GraphQL node
      */
-    static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, String definitionName) {
+    static String getClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, String definitionName) {
         StringBuilder classNameBuilder = new StringBuilder();
         if (mappingConfig.getModelNamePrefix() != null) {
             classNameBuilder.append(mappingConfig.getModelNamePrefix());
@@ -130,4 +130,32 @@ public class MapperUtils {
         }
     }
 
+    /**
+     * Returns imports required for a generated class:
+     * - model package name
+     * - api package name
+     * - generic package name
+     * - java.util
+     *
+     * @param mappingConfig Global mapping configuration
+     * @param packageName   Package name of the generated class which will be ignored
+     * @return all imports required for a generated class
+     */
+    static Set<String> getImports(MappingConfig mappingConfig, String packageName) {
+        Set<String> imports = new HashSet<>();
+        String modelPackageName = mappingConfig.getModelPackageName();
+        if (!Utils.isBlank(modelPackageName) && !modelPackageName.equals(packageName)) {
+            imports.add(modelPackageName);
+        }
+        String apiPackageName = mappingConfig.getApiPackageName();
+        if (!Utils.isBlank(apiPackageName) && !apiPackageName.equals(packageName)) {
+            imports.add(apiPackageName);
+        }
+        String genericPackageName = mappingConfig.getPackageName();
+        if (!Utils.isBlank(genericPackageName) && !genericPackageName.equals(packageName)) {
+            imports.add(genericPackageName);
+        }
+        imports.add("java.util");
+        return imports;
+    }
 }
