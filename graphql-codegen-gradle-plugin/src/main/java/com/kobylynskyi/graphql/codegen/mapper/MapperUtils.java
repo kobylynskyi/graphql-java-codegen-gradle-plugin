@@ -79,7 +79,7 @@ public class MapperUtils {
      * @param definition    GraphQL node
      * @return Class name of GraphQL node
      */
-    public static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, NamedNode definition) {
+    static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, NamedNode definition) {
         return generateClassNameWithPrefixAndSuffix(mappingConfig, definition.getName());
     }
 
@@ -90,7 +90,7 @@ public class MapperUtils {
      * @param definitionName GraphQL node name
      * @return Class name of GraphQL node
      */
-    public static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, String definitionName) {
+    static String generateClassNameWithPrefixAndSuffix(MappingConfig mappingConfig, String definitionName) {
         StringBuilder classNameBuilder = new StringBuilder();
         if (mappingConfig.getModelNamePrefix() != null) {
             classNameBuilder.append(mappingConfig.getModelNamePrefix());
@@ -100,6 +100,34 @@ public class MapperUtils {
             classNameBuilder.append(mappingConfig.getModelNameSuffix());
         }
         return classNameBuilder.toString();
+    }
+
+    /**
+     * Get java package name for api class.
+     *
+     * @param mappingConfig Global mapping configuration
+     * @return api package name if present. Generic package name otherwise
+     */
+    static String getApiPackageName(MappingConfig mappingConfig) {
+        if (!Utils.isBlank(mappingConfig.getApiPackageName())) {
+            return mappingConfig.getApiPackageName();
+        } else {
+            return mappingConfig.getPackageName();
+        }
+    }
+
+    /**
+     * Get java package name for model class.
+     *
+     * @param mappingConfig Global mapping configuration
+     * @return model package name if present. Generic package name otherwise
+     */
+    static String getModelPackageName(MappingConfig mappingConfig) {
+        if (!Utils.isBlank(mappingConfig.getModelPackageName())) {
+            return mappingConfig.getModelPackageName();
+        } else {
+            return mappingConfig.getPackageName();
+        }
     }
 
 }

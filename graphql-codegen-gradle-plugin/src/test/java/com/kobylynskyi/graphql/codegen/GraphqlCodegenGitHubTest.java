@@ -21,6 +21,7 @@ class GraphqlCodegenGitHubTest {
 
     private GraphqlCodegen generator;
 
+    private final File outputBuildDir = new File("build/generated");
     private final File outputJavaClassesDir = new File("build/generated/com/github/graphql");
     private final MappingConfig mappingConfig = new MappingConfig();
 
@@ -28,12 +29,12 @@ class GraphqlCodegenGitHubTest {
     void init() {
         mappingConfig.setPackageName("com.github.graphql");
         generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/github.graphqls"),
-                "build/generated", mappingConfig);
+                outputBuildDir, mappingConfig);
     }
 
     //@AfterEach
     void cleanup() throws IOException {
-        Utils.deleteFolder(new File("build/generated"));
+        Utils.deleteDir(new File("build/generated"));
     }
 
     @Test

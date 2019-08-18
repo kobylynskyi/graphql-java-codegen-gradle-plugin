@@ -9,6 +9,7 @@ import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +23,11 @@ import java.util.Map;
 public class GraphqlCodegenGradleTask extends DefaultTask {
 
     private List<String> graphqlSchemaPaths;
-    private String outputDir;
+    private File outputDir;
     private Map<String, String> customTypesMapping;
     private String packageName;
+    private String apiPackageName;
+    private String modelPackageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
 
@@ -35,6 +38,8 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         mappingConfig.setCustomTypesMapping(customTypesMapping != null ? customTypesMapping : new HashMap<>());
         mappingConfig.setModelNamePrefix(modelNamePrefix);
         mappingConfig.setModelNameSuffix(modelNameSuffix);
+        mappingConfig.setApiPackageName(apiPackageName);
+        mappingConfig.setModelPackageName(modelPackageName);
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
 
@@ -48,11 +53,11 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     }
 
     @OutputDirectory
-    public String getOutputDir() {
+    public File getOutputDir() {
         return outputDir;
     }
 
-    public void setOutputDir(String outputDir) {
+    public void setOutputDir(File outputDir) {
         this.outputDir = outputDir;
     }
 
@@ -95,4 +100,25 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     public void setModelNamePrefix(String modelNamePrefix) {
         this.modelNamePrefix = modelNamePrefix;
     }
+
+    @Input
+    @Optional
+    public String getApiPackageName() {
+        return apiPackageName;
+    }
+
+    public void setApiPackageName(String apiPackageName) {
+        this.apiPackageName = apiPackageName;
+    }
+
+    @Input
+    @Optional
+    public String getModelPackageName() {
+        return modelPackageName;
+    }
+
+    public void setModelPackageName(String modelPackageName) {
+        this.modelPackageName = modelPackageName;
+    }
+
 }

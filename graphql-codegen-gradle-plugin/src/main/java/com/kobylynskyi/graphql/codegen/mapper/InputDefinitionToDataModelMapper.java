@@ -24,7 +24,7 @@ public class InputDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, InputObjectTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, mappingConfig.getPackageName());
+        dataModel.put(PACKAGE, MapperUtils.getModelPackageName(mappingConfig));
         dataModel.put(CLASS_NAME, MapperUtils.generateClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
         dataModel.put(NAME, typeDefinition.getName());
         dataModel.put(FIELDS, InputValueDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getInputValueDefinitions()));

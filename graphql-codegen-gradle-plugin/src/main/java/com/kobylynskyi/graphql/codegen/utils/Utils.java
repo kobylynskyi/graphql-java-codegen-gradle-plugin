@@ -17,6 +17,12 @@ public final class Utils {
     private Utils() {
     }
 
+    /**
+     * Check whether the given type definition is either Query or Mutation or Subscription.
+     *
+     * @param typeDef type definition name
+     * @return {@code true} if the given type definition is GraphQL operation
+     */
     public static boolean isGraphqlOperation(String typeDef) {
         String typeDefNormalized = typeDef.toUpperCase();
         return typeDefNormalized.equals(OperationDefinition.Operation.QUERY.name()) ||
@@ -24,35 +30,85 @@ public final class Utils {
                 typeDefNormalized.equals(OperationDefinition.Operation.SUBSCRIPTION.name());
     }
 
-    public static String capitalize(String name) {
-        if (name != null && name.length() != 0) {
-            char[] chars = name.toCharArray();
-            chars[0] = Character.toUpperCase(chars[0]);
-            return new String(chars);
-        } else {
-            return name;
+    /**
+     * Capitalize a string. Make first letter as capital
+     *
+     * @param aString string to capitalize
+     * @return capitalized string
+     */
+    public static String capitalize(String aString) {
+        if (Utils.isBlank(aString)) {
+            return aString;
         }
+        char[] chars = aString.toCharArray();
+        chars[0] = Character.toUpperCase(chars[0]);
+        return new String(chars);
     }
 
+    /**
+     * Basically copy of org.apache.commons.lang3.StringUtils.isBlank(CharSequence cs)
+     *
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is null, empty or whitespace only
+     */
+    public static boolean isBlank(CharSequence cs) {
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Get content of the file.
+     *
+     * @param filePath path of the file.
+     * @return content of the file.
+     * @throws IOException unable to read the file.
+     */
     public static String getFileContent(String filePath) throws IOException {
         return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 
-    public static void deleteFolder(File folder) throws IOException {
-        if (!folder.exists()) {
+    /**
+     * Deletes a given directory recursively.
+     *
+     * @param dir directory to delete
+     * @throws IOException unable to delete a directory
+     */
+    public static void deleteDir(File dir) throws IOException {
+        if (!dir.exists()) {
             return;
         }
-        File[] files = folder.listFiles();
+        File[] files = dir.listFiles();
         if (files != null) { //some JVMs return null for empty dirs
             for (File subFile : files) {
                 if (subFile.isDirectory()) {
-                    deleteFolder(subFile);
+                    deleteDir(subFile);
                 } else {
                     Files.delete(subFile.toPath());
                 }
             }
         }
-        Files.delete(folder.toPath());
+        Files.delete(dir.toPath());
     }
 
+    /**
+     * Create directory if it is absent. Will do nothing if it is already present.
+     *
+     * @param dir to create if it is absent.
+     */
+    public static void createDirIfAbsent(File dir) throws IOException {
+        if (!dir.exists()) {
+            boolean outputDirCreated = dir.mkdirs();
+            if (!outputDirCreated) {
+                throw new IOException("Unable to create output directory");
+            }
+        }
+    }
 }

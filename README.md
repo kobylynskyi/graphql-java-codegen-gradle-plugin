@@ -73,9 +73,8 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 | customTypesMapping      | Map(String,String) | Empty         | Map of (GraphQL Schema Type) to (Java Type). Can be used to supply custom mappings for scalars. |
 | modelNamePrefix         | String             | Empty         | Sets the prefix for GraphQL model classes (type, input, interface, enum, union). |
 | modelNameSuffix         | String             | Empty         | Sets the suffix for GraphQL model classes (type, input, interface, enum, union). |
-| -                       | -                  | -             | -           |
-| **TBD** apiPackage      | String             | Empty         |             |
-| **TBD** modelPackage    | String             | Empty         |             |
+| apiPackage              | String             | Empty         | Java package for generated api classes (Query, Mutation, Subscription). |
+| modelPackage            | String             | Empty         | Java package for generated model classes (type, input, interface, enum, union). |
 
 
 ### Example
