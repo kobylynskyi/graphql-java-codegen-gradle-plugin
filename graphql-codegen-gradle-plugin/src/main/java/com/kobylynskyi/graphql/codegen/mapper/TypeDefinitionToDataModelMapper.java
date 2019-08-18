@@ -30,7 +30,7 @@ public class TypeDefinitionToDataModelMapper {
     public static Map<String, Object> map(MappingConfig mappingConfig, ObjectTypeDefinition typeDefinition,
                                           Document document) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, mappingConfig.getJavaPackage());
+        dataModel.put(PACKAGE, mappingConfig.getPackageName());
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
         Set<String> allInterfaces = new LinkedHashSet<>();
         allInterfaces.addAll(MapperUtils.getUnionsHavingType(typeDefinition, document));

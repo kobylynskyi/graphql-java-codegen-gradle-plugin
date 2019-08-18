@@ -25,7 +25,7 @@ public class InterfaceDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, InterfaceTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, mappingConfig.getJavaPackage());
+        dataModel.put(PACKAGE, mappingConfig.getPackageName());
         dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
         dataModel.put(FIELDS, FieldDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getFieldDefinitions()));
         return dataModel;

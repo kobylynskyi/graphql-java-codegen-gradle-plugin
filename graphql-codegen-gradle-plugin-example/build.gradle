@@ -34,7 +34,7 @@ graphqlCodegen {
             "$projectDir/src/main/resources/schema.graphqls".toString()
     ]
     outputDir = "$buildDir/generated"
-    javaPackage = "com.kobylynskyi.graphql.codegen"
+    packageName = "com.kobylynskyi.graphql.codegen"
 }
 
 repositories {

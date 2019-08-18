@@ -34,7 +34,7 @@ class GraphqlCodegenTest {
 
     @BeforeEach
     void init() {
-        mappingConfig.setJavaPackage("com.kobylynskyi.graphql.test1");
+        mappingConfig.setPackageName("com.kobylynskyi.graphql.test1");
         generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/test.graphqls"),
                 outputBuildDir, mappingConfig);
     }
@@ -93,7 +93,7 @@ class GraphqlCodegenTest {
 
     @Test
     void generate_NoPackage() throws IOException, TemplateException {
-        mappingConfig.setJavaPackage(null);
+        mappingConfig.setPackageName(null);
         generator.generate();
 
         File[] files = Objects.requireNonNull(new File(outputBuildDir).listFiles());

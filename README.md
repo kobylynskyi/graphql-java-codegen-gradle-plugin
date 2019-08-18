@@ -6,8 +6,6 @@
 
 This document describes the gradle plugin for GraphQL Generator.
 
-Inspired by [swagger-codegen](https://github.com/swagger-api/swagger-codegen).
-
 ### Description
 
 This Gradle plugin is able to generate the following classes based on your GraphQL schema:
@@ -40,8 +38,10 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
     graphqlCodegen {
         graphqlSchemaPaths = ["$projectDir/src/main/resources/schema.graphqls".toString()]
         outputDir = "$buildDir/generated/graphql"
-        javaPackage = "com.example.graphql.model"
-        javaPackage = "com.example.graphql.model"
+        packageName = "com.example.graphql.model"
+        customTypesMapping = [
+            DateTime: "org.joda.time.DateTime"
+        ]
     }
 
 #### Plugin Options
@@ -49,7 +49,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 | Key                     | Data Type          | Default value | Description |
 | ----------------------- | ------------------ | ------------- | ----------- |
 | graphqlSchemaPaths      | List(String)       | None          | GraphQL schema locations. You can supply multiple paths to GraphQL schemas. |
-| javaPackage             | String             | Empty         | Package for generated classes. |
+| packageName             | String             | Empty         | Java package for generated classes. |
 | outputDir               | String             | None          | The output target directory into which code will be generated. |
 | customTypesMapping      | Map(String,String) | Empty         | Map of (GraphQL Schema Type) to (Java Type). Can be used to supply custom mappings for scalars. |
 | ----------------------- | ------------------ | ------------- | ----------- |
@@ -61,4 +61,9 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 
 ### Example
 
-Can be seen [here](graphql-codegen-gradle-plugin-example).
+[graphql-codegen-gradle-plugin-example](graphql-codegen-gradle-plugin-example)
+
+
+### Inspired by
+[swagger-codegen](https://github.com/swagger-api/swagger-codegen)
+

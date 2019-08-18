@@ -141,11 +141,11 @@ public class GraphqlCodegen {
 
     private static File prepareOutputDir(String outputDir, MappingConfig mappingConfig) throws IOException {
         File targetDir;
-        String javaPackage = mappingConfig.getJavaPackage();
-        if (javaPackage == null || javaPackage.trim().isEmpty()) {
+        String packageName = mappingConfig.getPackageName();
+        if (packageName == null || packageName.trim().isEmpty()) {
             targetDir = new File(outputDir);
         } else {
-            targetDir = new File(outputDir, javaPackage.replace(".", File.separator));
+            targetDir = new File(outputDir, packageName.replace(".", File.separator));
         }
         Utils.deleteFolder(targetDir);
         boolean outputDirCreated = targetDir.mkdirs();

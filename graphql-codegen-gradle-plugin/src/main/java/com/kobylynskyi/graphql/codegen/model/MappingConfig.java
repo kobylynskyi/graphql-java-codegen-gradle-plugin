@@ -13,6 +13,6 @@ public class MappingConfig {
      * e.g.: DateTime -> String
      */
     private Map<String, String> customTypesMapping = new HashMap<>();
-    private String javaPackage;
+    private String packageName;
 
 }

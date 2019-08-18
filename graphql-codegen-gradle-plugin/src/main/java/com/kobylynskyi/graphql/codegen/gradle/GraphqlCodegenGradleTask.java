@@ -24,12 +24,12 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private List<String> graphqlSchemaPaths;
     private String outputDir;
     private Map<String, String> customTypesMapping;
-    private String javaPackage;
+    private String packageName;
 
     @TaskAction
     public void generate() throws IOException, TemplateException {
         MappingConfig mappingConfig = new MappingConfig();
-        mappingConfig.setJavaPackage(javaPackage);
+        mappingConfig.setPackageName(packageName);
         mappingConfig.setCustomTypesMapping(customTypesMapping != null ? customTypesMapping : new HashMap<>());
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
@@ -52,7 +52,8 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.outputDir = outputDir;
     }
 
-    @Input @Optional
+    @Input
+    @Optional
     public Map<String, String> getCustomTypesMapping() {
         return customTypesMapping;
     }
@@ -61,13 +62,14 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.customTypesMapping = customTypesMapping;
     }
 
-    @Input @Optional
-    public String getJavaPackage() {
-        return javaPackage;
+    @Input
+    @Optional
+    public String getPackageName() {
+        return packageName;
     }
 
-    public void setJavaPackage(String javaPackage) {
-        this.javaPackage = javaPackage;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
 }

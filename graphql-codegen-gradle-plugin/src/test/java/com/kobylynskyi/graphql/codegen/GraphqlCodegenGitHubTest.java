@@ -3,7 +3,6 @@ package com.kobylynskyi.graphql.codegen;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import freemarker.template.TemplateException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,7 @@ class GraphqlCodegenGitHubTest {
 
     @BeforeEach
     void init() {
-        mappingConfig.setJavaPackage("com.github.graphql");
+        mappingConfig.setPackageName("com.github.graphql");
         generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/github.graphqls"),
                 "build/generated", mappingConfig);
     }
