@@ -26,14 +26,15 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class GraphqlCodegenTest {
 
+    private MappingConfig mappingConfig;
     private GraphqlCodegen generator;
 
-    private final String outputBuildDir = "build/generated";
-    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/test1");
-    private final MappingConfig mappingConfig = new MappingConfig();
+    private File outputBuildDir = new File("build/generated");
+    private File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/test1");
 
     @BeforeEach
     void init() {
+        mappingConfig = new MappingConfig();
         mappingConfig.setPackageName("com.kobylynskyi.graphql.test1");
         generator = new GraphqlCodegen(Collections.singletonList("src/test/resources/schemas/test.graphqls"),
                 outputBuildDir, mappingConfig);
@@ -41,7 +42,7 @@ class GraphqlCodegenTest {
 
     @AfterEach
     void cleanup() throws IOException {
-        Utils.deleteFolder(new File("build/generated"));
+        Utils.deleteDir(new File("build/generated"));
     }
 
     @Test
@@ -96,12 +97,50 @@ class GraphqlCodegenTest {
         mappingConfig.setPackageName(null);
         generator.generate();
 
-        File[] files = Objects.requireNonNull(new File(outputBuildDir).listFiles());
+        File[] files = Objects.requireNonNull(outputBuildDir.listFiles());
         File eventFile = Arrays.stream(files)
                 .filter(file -> file.getName().equalsIgnoreCase("Event.java"))
                 .findFirst().orElseThrow(FileNotFoundException::new);
 
-        assertThat(Utils.getFileContent(eventFile.getPath()), StringStartsWith.startsWith("public class Event"));
+        assertThat(Utils.getFileContent(eventFile.getPath()),
+                StringStartsWith.startsWith("import java.util.*;" +
+                        System.lineSeparator() + System.lineSeparator() +
+                        "public class Event {"));
+    }
+
+    @Test
+    void generate_CustomModelAndApiPackages() throws IOException, TemplateException {
+        mappingConfig.setModelPackageName("com.kobylynskyi.graphql.test1.model");
+        mappingConfig.setApiPackageName("com.kobylynskyi.graphql.test1.api");
+        generator.generate();
+
+
+        File[] apiFiles = Objects.requireNonNull(new File(outputJavaClassesDir, "api").listFiles());
+        List<String> generatedApiFileNames = Arrays.stream(apiFiles).map(File::getName).sorted().collect(toList());
+        assertEquals(Arrays.asList("CreateEventMutation.java", "EventByIdQuery.java",
+                "EventsByCategoryAndStatusQuery.java", "Mutation.java", "Query.java", "VersionQuery.java"),
+                generatedApiFileNames);
+        Arrays.stream(apiFiles).forEach(file -> {
+            try {
+                assertThat(Utils.getFileContent(file.getPath()),
+                        StringStartsWith.startsWith("package com.kobylynskyi.graphql.test1.api;"));
+            } catch (IOException e) {
+                fail(e);
+            }
+        });
+
+        File[] modelFiles = Objects.requireNonNull(new File(outputJavaClassesDir, "model").listFiles());
+        List<String> generatedModelFileNames = Arrays.stream(modelFiles).map(File::getName).sorted().collect(toList());
+        assertEquals(Arrays.asList("Event.java", "EventProperty.java", "EventStatus.java"),
+                generatedModelFileNames);
+        Arrays.stream(modelFiles).forEach(file -> {
+            try {
+                assertThat(Utils.getFileContent(file.getPath()),
+                        StringStartsWith.startsWith("package com.kobylynskyi.graphql.test1.model;"));
+            } catch (IOException e) {
+                fail(e);
+            }
+        });
     }
 
     @Test
@@ -109,17 +148,40 @@ class GraphqlCodegenTest {
         generator.setSchemas(Collections.emptyList());
         generator.generate();
 
-        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        File[] files = Objects.requireNonNull(outputBuildDir.listFiles());
         assertEquals(0, files.length);
     }
 
     @Test
     void generate_WrongSchema() {
-        generator.setSchemas(Collections.singletonList("wrong.graphqls"));
+        generator.setSchemas(Collections.singletonList("src/test/resources/schemas/wrong.graphqls"));
 
         Assertions.assertThrows(NoSuchFileException.class, () -> {
             generator.generate();
         });
+    }
+
+    @Test
+    void generate_NoQueries() throws IOException, TemplateException {
+        mappingConfig.setPackageName("");
+        generator.setSchemas(Collections.singletonList("src/test/resources/schemas/no-queries.graphqls"));
+        generator.generate();
+
+        File[] files = Objects.requireNonNull(outputBuildDir.listFiles());
+        assertEquals(2, files.length);
+        assertEquals(Utils.getFileContent("src/test/resources/expected-classes/EmptyMutation.java.txt"),
+                Utils.getFileContent(files[0].getPath()));
+        assertEquals(Utils.getFileContent("src/test/resources/expected-classes/EmptyQuery.java.txt"),
+                Utils.getFileContent(files[1].getPath()));
+    }
+
+    @Test
+    void generate_Empty() throws IOException, TemplateException {
+        generator.setSchemas(Collections.singletonList("src/test/resources/schemas/empty.graphqls"));
+        generator.generate();
+
+        File[] files = Objects.requireNonNull(outputBuildDir.listFiles());
+        assertEquals(0, files.length);
     }
 
 }

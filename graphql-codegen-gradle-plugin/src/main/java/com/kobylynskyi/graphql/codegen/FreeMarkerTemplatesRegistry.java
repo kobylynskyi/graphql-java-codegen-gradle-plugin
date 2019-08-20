@@ -1,5 +1,6 @@
 package com.kobylynskyi.graphql.codegen;
 
+import com.kobylynskyi.graphql.codegen.model.UnableToLoadFreeMarkerTemplateException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
@@ -29,7 +30,7 @@ class FreeMarkerTemplatesRegistry {
             interfaceTemplate = configuration.getTemplate("templates/javaClassGraphqlInterface.ftl");
             operationsTemplate = configuration.getTemplate("templates/javaClassGraphqlOperations.ftl");
         } catch (IOException e) {
-            throw new RuntimeException("Unable to load FreeMarker templates", e);
+            throw new UnableToLoadFreeMarkerTemplateException(e);
         }
     }
 }

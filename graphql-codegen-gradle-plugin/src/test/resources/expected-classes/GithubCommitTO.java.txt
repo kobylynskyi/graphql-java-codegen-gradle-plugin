@@ -2,25 +2,25 @@ package com.github.graphql;
 
 import java.util.*;
 
-public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineItem, GitObject, Node, Subscribable, UniformResourceLocatable{
+public class GithubCommitTO implements GithubCloserTO, GithubIssueTimelineItemTO, GithubPullRequestTimelineItemTO, GithubGitObjectTO, GithubNodeTO, GithubSubscribableTO, GithubUniformResourceLocatableTO{
 
     private String abbreviatedOid;
     private Integer additions;
-    private PullRequestConnection associatedPullRequests;
-    private GitActor author;
+    private GithubPullRequestConnectionTO associatedPullRequests;
+    private GithubGitActorTO author;
     private Boolean authoredByCommitter;
     private String authoredDate;
-    private Blame blame;
+    private GithubBlameTO blame;
     private Integer changedFiles;
-    private CommitCommentConnection comments;
+    private GithubCommitCommentConnectionTO comments;
     private String commitResourcePath;
     private String commitUrl;
     private String committedDate;
     private Boolean committedViaWeb;
-    private GitActor committer;
+    private GithubGitActorTO committer;
     private Integer deletions;
-    private DeploymentConnection deployments;
-    private CommitHistoryConnection history;
+    private GithubDeploymentConnectionTO deployments;
+    private GithubCommitHistoryConnectionTO history;
     private String id;
     private String message;
     private String messageBody;
@@ -28,22 +28,22 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
     private String messageHeadline;
     private String messageHeadlineHTML;
     private String oid;
-    private CommitConnection parents;
+    private GithubCommitConnectionTO parents;
     private String pushedDate;
-    private Repository repository;
+    private GithubRepositoryTO repository;
     private String resourcePath;
-    private GitSignature signature;
-    private Status status;
+    private GithubGitSignatureTO signature;
+    private GithubStatusTO status;
     private String tarballUrl;
-    private Tree tree;
+    private GithubTreeTO tree;
     private String treeResourcePath;
     private String treeUrl;
     private String url;
     private Boolean viewerCanSubscribe;
-    private SubscriptionState viewerSubscription;
+    private GithubSubscriptionStateTO viewerSubscription;
     private String zipballUrl;
 
-    public Commit() {
+    public GithubCommitTO() {
     }
 
     public String getAbbreviatedOid() {
@@ -60,17 +60,17 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.additions = additions;
     }
 
-    public PullRequestConnection getAssociatedPullRequests() {
+    public GithubPullRequestConnectionTO getAssociatedPullRequests() {
         return associatedPullRequests;
     }
-    public void setAssociatedPullRequests(PullRequestConnection associatedPullRequests) {
+    public void setAssociatedPullRequests(GithubPullRequestConnectionTO associatedPullRequests) {
         this.associatedPullRequests = associatedPullRequests;
     }
 
-    public GitActor getAuthor() {
+    public GithubGitActorTO getAuthor() {
         return author;
     }
-    public void setAuthor(GitActor author) {
+    public void setAuthor(GithubGitActorTO author) {
         this.author = author;
     }
 
@@ -88,10 +88,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.authoredDate = authoredDate;
     }
 
-    public Blame getBlame() {
+    public GithubBlameTO getBlame() {
         return blame;
     }
-    public void setBlame(Blame blame) {
+    public void setBlame(GithubBlameTO blame) {
         this.blame = blame;
     }
 
@@ -102,10 +102,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.changedFiles = changedFiles;
     }
 
-    public CommitCommentConnection getComments() {
+    public GithubCommitCommentConnectionTO getComments() {
         return comments;
     }
-    public void setComments(CommitCommentConnection comments) {
+    public void setComments(GithubCommitCommentConnectionTO comments) {
         this.comments = comments;
     }
 
@@ -137,10 +137,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.committedViaWeb = committedViaWeb;
     }
 
-    public GitActor getCommitter() {
+    public GithubGitActorTO getCommitter() {
         return committer;
     }
-    public void setCommitter(GitActor committer) {
+    public void setCommitter(GithubGitActorTO committer) {
         this.committer = committer;
     }
 
@@ -151,17 +151,17 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.deletions = deletions;
     }
 
-    public DeploymentConnection getDeployments() {
+    public GithubDeploymentConnectionTO getDeployments() {
         return deployments;
     }
-    public void setDeployments(DeploymentConnection deployments) {
+    public void setDeployments(GithubDeploymentConnectionTO deployments) {
         this.deployments = deployments;
     }
 
-    public CommitHistoryConnection getHistory() {
+    public GithubCommitHistoryConnectionTO getHistory() {
         return history;
     }
-    public void setHistory(CommitHistoryConnection history) {
+    public void setHistory(GithubCommitHistoryConnectionTO history) {
         this.history = history;
     }
 
@@ -214,10 +214,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.oid = oid;
     }
 
-    public CommitConnection getParents() {
+    public GithubCommitConnectionTO getParents() {
         return parents;
     }
-    public void setParents(CommitConnection parents) {
+    public void setParents(GithubCommitConnectionTO parents) {
         this.parents = parents;
     }
 
@@ -228,10 +228,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.pushedDate = pushedDate;
     }
 
-    public Repository getRepository() {
+    public GithubRepositoryTO getRepository() {
         return repository;
     }
-    public void setRepository(Repository repository) {
+    public void setRepository(GithubRepositoryTO repository) {
         this.repository = repository;
     }
 
@@ -242,17 +242,17 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.resourcePath = resourcePath;
     }
 
-    public GitSignature getSignature() {
+    public GithubGitSignatureTO getSignature() {
         return signature;
     }
-    public void setSignature(GitSignature signature) {
+    public void setSignature(GithubGitSignatureTO signature) {
         this.signature = signature;
     }
 
-    public Status getStatus() {
+    public GithubStatusTO getStatus() {
         return status;
     }
-    public void setStatus(Status status) {
+    public void setStatus(GithubStatusTO status) {
         this.status = status;
     }
 
@@ -263,10 +263,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.tarballUrl = tarballUrl;
     }
 
-    public Tree getTree() {
+    public GithubTreeTO getTree() {
         return tree;
     }
-    public void setTree(Tree tree) {
+    public void setTree(GithubTreeTO tree) {
         this.tree = tree;
     }
 
@@ -298,10 +298,10 @@ public class Commit implements Closer, IssueTimelineItem, PullRequestTimelineIte
         this.viewerCanSubscribe = viewerCanSubscribe;
     }
 
-    public SubscriptionState getViewerSubscription() {
+    public GithubSubscriptionStateTO getViewerSubscription() {
         return viewerSubscription;
     }
-    public void setViewerSubscription(SubscriptionState viewerSubscription) {
+    public void setViewerSubscription(GithubSubscriptionStateTO viewerSubscription) {
         this.viewerSubscription = viewerSubscription;
     }
 

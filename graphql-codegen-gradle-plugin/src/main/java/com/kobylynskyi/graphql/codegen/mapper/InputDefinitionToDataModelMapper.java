@@ -1,7 +1,6 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.InputObjectTypeDefinition;
 
 import java.util.HashMap;
@@ -25,8 +24,10 @@ public class InputDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, InputObjectTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, mappingConfig.getPackageName());
-        dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
+        String packageName = MapperUtils.getModelPackageName(mappingConfig);
+        dataModel.put(PACKAGE, packageName);
+        dataModel.put(IMPORTS, MapperUtils.getImports(mappingConfig, packageName));
+        dataModel.put(CLASS_NAME, MapperUtils.getClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
         dataModel.put(NAME, typeDefinition.getName());
         dataModel.put(FIELDS, InputValueDefinitionToParameterMapper.map(mappingConfig, typeDefinition.getInputValueDefinitions()));
         return dataModel;

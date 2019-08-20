@@ -3,12 +3,11 @@ package com.kobylynskyi.graphql.codegen.model;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.*;
 
+import javax.annotation.Nonnull;
+
 public class DefinitionTypeDeterminer {
 
-    public static DefinitionType determine(Definition definition) {
-        if (definition == null) {
-            throw new IllegalArgumentException("GraphQL definition is undefined");
-        }
+    public static DefinitionType determine(@Nonnull Definition definition) {
         if (definition instanceof ObjectTypeDefinition) {
             ObjectTypeDefinition typeDef = (ObjectTypeDefinition) definition;
             if (Utils.isGraphqlOperation(typeDef.getName())) {

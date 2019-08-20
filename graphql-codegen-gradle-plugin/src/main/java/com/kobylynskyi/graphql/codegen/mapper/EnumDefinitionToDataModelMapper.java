@@ -1,7 +1,6 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.EnumTypeDefinition;
 
 import java.util.HashMap;
@@ -25,11 +24,11 @@ public class EnumDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, EnumTypeDefinition enumDef) {
         Map<String, Object> dataModel = new HashMap<>();
-
-        dataModel.put(PACKAGE, mappingConfig.getPackageName());
-        dataModel.put(CLASS_NAME, Utils.capitalize(enumDef.getName()));
+        String packageName = MapperUtils.getModelPackageName(mappingConfig);
+        dataModel.put(PACKAGE, packageName);
+        dataModel.put(IMPORTS, MapperUtils.getImports(mappingConfig, packageName));
+        dataModel.put(CLASS_NAME, MapperUtils.getClassNameWithPrefixAndSuffix(mappingConfig, enumDef));
         dataModel.put(FIELDS, EnumValueDefinitionToStringMapper.map(enumDef.getEnumValueDefinitions()));
-
         return dataModel;
     }
 

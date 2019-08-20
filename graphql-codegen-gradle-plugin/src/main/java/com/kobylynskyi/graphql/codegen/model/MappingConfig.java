@@ -14,5 +14,9 @@ public class MappingConfig {
      */
     private Map<String, String> customTypesMapping = new HashMap<>();
     private String packageName;
+    private String apiPackageName;
+    private String modelPackageName;
+    private String modelNamePrefix;
+    private String modelNameSuffix;
 
 }

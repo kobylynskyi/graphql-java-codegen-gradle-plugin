@@ -9,7 +9,7 @@ plugins {
     id "java"
     id "net.ltgt.apt" version "0.21"
     id "net.ltgt.apt-idea" version "0.21"
-    id "com.kobylynskyi.graphql.codegen" version "0.1"
+    id "com.kobylynskyi.graphql.codegen" version "0.2"
 }
 
 ext {
@@ -21,19 +21,18 @@ ext {
 }
 
 group = "com.kobylynskyi"
-version = "0.1-SNAPSHOT"
+version = "0.2"
 description = "graphql-java-codegen-example"
-sourceCompatibility = "1.8"
 
-compileJava.dependsOn tasks.graphqlCodegen
+compileJava.dependsOn "graphqlCodegen"
 
-sourceSets.main.java.srcDir "build/generated"
+sourceSets.main.java.srcDir "$buildDir/generated"
 
 graphqlCodegen {
     graphqlSchemaPaths = [
             "$projectDir/src/main/resources/schema.graphqls".toString()
     ]
-    outputDir = "$buildDir/generated"
+    outputDir = new File("$buildDir/generated")
     packageName = "com.kobylynskyi.graphql.codegen"
 }
 

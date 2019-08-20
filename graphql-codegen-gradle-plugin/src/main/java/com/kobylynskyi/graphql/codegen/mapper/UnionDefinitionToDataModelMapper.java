@@ -1,14 +1,12 @@
 package com.kobylynskyi.graphql.codegen.mapper;
 
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.UnionTypeDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.CLASS_NAME;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.PACKAGE;
+import static com.kobylynskyi.graphql.codegen.model.DataModelFields.*;
 
 /**
  * Map union definition to a Freemarker data model
@@ -26,8 +24,10 @@ public class UnionDefinitionToDataModelMapper {
      */
     public static Map<String, Object> map(MappingConfig mappingConfig, UnionTypeDefinition typeDefinition) {
         Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put(PACKAGE, mappingConfig.getPackageName());
-        dataModel.put(CLASS_NAME, Utils.capitalize(typeDefinition.getName()));
+        String packageName = MapperUtils.getModelPackageName(mappingConfig);
+        dataModel.put(PACKAGE, packageName);
+        dataModel.put(IMPORTS, MapperUtils.getImports(mappingConfig, packageName));
+        dataModel.put(CLASS_NAME, MapperUtils.getClassNameWithPrefixAndSuffix(mappingConfig, typeDefinition));
         return dataModel;
     }
 

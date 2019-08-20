@@ -17,7 +17,7 @@ This Gradle plugin is able to generate the following classes based on your Graph
 ### Plugin Setup
 
     plugins {
-        id "com.kobylynskyi.graphql.codegen" version "0.1"
+        id "com.kobylynskyi.graphql.codegen" version "0.2"
     }
 
 Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
@@ -29,7 +29,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         }
       }
       dependencies {
-        classpath "com.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:0.1"
+        classpath "com.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:0.2"
       }
     }
 
@@ -53,13 +53,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
    ```
 * Add generated sources to your project source sets:
    ```
-   sourceSets {
-       main {
-           java {
-               srcDir "$buildDir/generated/graphql"
-           }
-       }
-   }
+   sourceSets.main.java.srcDir "$buildDir/generated"
    ```
 
 
@@ -71,11 +65,10 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 | packageName             | String             | Empty         | Java package for generated classes. |
 | outputDir               | String             | None          | The output target directory into which code will be generated. |
 | customTypesMapping      | Map(String,String) | Empty         | Map of (GraphQL Schema Type) to (Java Type). Can be used to supply custom mappings for scalars. |
-| -                       | -                  | -             | -           |
-| **TBD** apiPackage      | String             | Empty         |             |
-| **TBD** modelPackage    | String             | Empty         |             |
-| **TBD** modelNamePrefix | String             | Empty         |             |
-| **TBD** modelNameSuffix | String             | Empty         |             |
+| modelNamePrefix         | String             | Empty         | Sets the prefix for GraphQL model classes (type, input, interface, enum, union). |
+| modelNameSuffix         | String             | Empty         | Sets the suffix for GraphQL model classes (type, input, interface, enum, union). |
+| apiPackage              | String             | Empty         | Java package for generated api classes (Query, Mutation, Subscription). |
+| modelPackage            | String             | Empty         | Java package for generated model classes (type, input, interface, enum, union). |
 
 
 ### Example

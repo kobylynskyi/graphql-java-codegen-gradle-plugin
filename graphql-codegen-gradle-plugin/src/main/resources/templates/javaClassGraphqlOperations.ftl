@@ -2,6 +2,10 @@
 package ${package};
 
 </#if>
+<#list imports as import>
+import ${import}.*;
+</#list>
+
 public interface ${className} {
 
 <#list operations as operation>

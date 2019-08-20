@@ -3,7 +3,7 @@ package com.kobylynskyi.graphql.codegen.model;
 import graphql.language.Definition;
 
 /**
- * Generic exception that indicates some code generation error
+ * Exception that indicates unknown/unsupported GraphQL definition
  *
  * @author kobylynskyi
  */

@@ -35,19 +35,17 @@ import java.util.Map;
 public class GraphqlCodegen {
 
     private List<String> schemas;
-    private String outputDir;
+    private File outputDir;
     private MappingConfig mappingConfig;
 
-    private File classesOutputDir;
-
-    public GraphqlCodegen(List<String> schemas, String outputDir, MappingConfig mappingConfig) {
+    public GraphqlCodegen(List<String> schemas, File outputDir, MappingConfig mappingConfig) {
         this.schemas = schemas;
         this.outputDir = outputDir;
         this.mappingConfig = mappingConfig;
     }
 
     public void generate() throws IOException, TemplateException {
-        classesOutputDir = prepareOutputDir(outputDir, mappingConfig);
+        prepareOutputDir();
         for (String schema : schemas) {
             long startTime = System.currentTimeMillis();
             Document document = GraphqlDocumentParser.getDocument(schema);
@@ -81,7 +79,7 @@ public class GraphqlCodegen {
             }
         }
         System.out.println(String.format("Generated %d definitions in folder '%s'", document.getDefinitions().size(),
-                classesOutputDir.getAbsolutePath()));
+                outputDir.getAbsolutePath()));
     }
 
     private void generateUnion(UnionTypeDefinition definition) throws IOException, TemplateException {
@@ -131,7 +129,9 @@ public class GraphqlCodegen {
     }
 
     private void generateFile(Template template, Map<String, Object> dataModel) throws IOException, TemplateException {
-        File javaSourceFile = new File(classesOutputDir, dataModel.get(DataModelFields.CLASS_NAME) + ".java");
+        String fileName = dataModel.get(DataModelFields.CLASS_NAME) + ".java";
+        File fileOutputDir = getFileTargetDirectory(dataModel);
+        File javaSourceFile = new File(fileOutputDir, fileName);
         boolean fileCreated = javaSourceFile.createNewFile();
         if (!fileCreated) {
             throw new FileAlreadyExistsException("File already exists: " + javaSourceFile.getPath());
@@ -139,19 +139,20 @@ public class GraphqlCodegen {
         template.process(dataModel, new FileWriter(javaSourceFile));
     }
 
-    private static File prepareOutputDir(String outputDir, MappingConfig mappingConfig) throws IOException {
+    private void prepareOutputDir() throws IOException {
+        Utils.deleteDir(outputDir);
+        Utils.createDirIfAbsent(outputDir);
+    }
+
+    private File getFileTargetDirectory(Map<String, Object> dataModel) throws IOException {
         File targetDir;
-        String packageName = mappingConfig.getPackageName();
-        if (packageName == null || packageName.trim().isEmpty()) {
-            targetDir = new File(outputDir);
+        Object packageName = dataModel.get(DataModelFields.PACKAGE);
+        if (packageName != null && !Utils.isBlank(packageName.toString())) {
+            targetDir = new File(outputDir, packageName.toString().replace(".", File.separator));
         } else {
-            targetDir = new File(outputDir, packageName.replace(".", File.separator));
+            targetDir = outputDir;
         }
-        Utils.deleteFolder(targetDir);
-        boolean outputDirCreated = targetDir.mkdirs();
-        if (!outputDirCreated) {
-            throw new IOException("Unable to create output directory");
-        }
+        Utils.createDirIfAbsent(targetDir);
         return targetDir;
     }
 
