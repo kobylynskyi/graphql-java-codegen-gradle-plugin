@@ -15,17 +15,13 @@ apply plugin: "java"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 
-version = "0.2"
+version = "1.0"
 group = "com.kobylynskyi.graphql.codegen"
 
 dependencies {
     compile gradleApi()
 
-    compile 'org.freemarker:freemarker:2.3.28'
-    compile 'com.graphql-java:graphql-java:13.0'
-
-    compileOnly 'org.projectlombok:lombok:1.18.8'
-    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compile 'io.github.kobylynskyi:graphl-java-codegen:1.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'

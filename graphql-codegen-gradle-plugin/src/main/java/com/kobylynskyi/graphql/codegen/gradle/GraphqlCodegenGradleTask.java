@@ -2,7 +2,6 @@ package com.kobylynskyi.graphql.codegen.gradle;
 
 import com.kobylynskyi.graphql.codegen.GraphqlCodegen;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import freemarker.template.TemplateException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
@@ -10,7 +9,6 @@ import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private String modelNameSuffix;
 
     @TaskAction
-    public void generate() throws IOException, TemplateException {
+    public void generate() throws Exception {
         MappingConfig mappingConfig = new MappingConfig();
         mappingConfig.setPackageName(packageName);
         mappingConfig.setCustomTypesMapping(customTypesMapping != null ? customTypesMapping : new HashMap<>());
