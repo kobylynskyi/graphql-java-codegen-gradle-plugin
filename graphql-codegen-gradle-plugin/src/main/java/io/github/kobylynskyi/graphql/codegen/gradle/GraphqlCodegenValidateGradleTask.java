@@ -1,4 +1,4 @@
-package com.kobylynskyi.graphql.codegen.gradle;
+package io.github.kobylynskyi.graphql.codegen.gradle;
 
 import com.kobylynskyi.graphql.codegen.GraphqlCodegenValidate;
 import org.gradle.api.DefaultTask;

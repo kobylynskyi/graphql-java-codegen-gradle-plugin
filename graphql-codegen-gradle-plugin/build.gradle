@@ -15,8 +15,9 @@ apply plugin: "java"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 
+group = "io.github.kobylynskyi"
 version = "1.0"
-group = "io.github.kobylynskyi.graphql-java-codegen"
+description = "Provides a task for generating Java code based on GraphQL schema"
 
 dependencies {
     compile gradleApi()
@@ -29,10 +30,11 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        graphqlCodegenPlugin {
+        graphqlCodegen {
             id = 'io.github.kobylynskyi.graphql.codegen'
-            displayName = 'GraphQL Java Codegen plugin'
-            implementationClass = 'com.kobylynskyi.graphql.codegen.gradle.GraphqlCodegenGradlePlugin'
+            displayName = 'GraphQL Java Codegen'
+            description = project.description
+            implementationClass = 'io.github.kobylynskyi.graphql.codegen.gradle.GraphqlCodegenGradlePlugin'
         }
     }
 }
