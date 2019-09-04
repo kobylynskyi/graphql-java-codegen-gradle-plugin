@@ -16,7 +16,7 @@ apply plugin: "idea"
 apply plugin: "maven-publish"
 
 version = "1.0"
-group = "com.kobylynskyi.graphql.codegen"
+group = "io.github.kobylynskyi.graphql-java-codegen"
 
 dependencies {
     compile gradleApi()
@@ -30,7 +30,7 @@ dependencies {
 gradlePlugin {
     plugins {
         graphqlCodegenPlugin {
-            id = 'com.kobylynskyi.graphql.codegen'
+            id = 'io.github.kobylynskyi.graphql.codegen'
             displayName = 'GraphQL Java Codegen plugin'
             implementationClass = 'com.kobylynskyi.graphql.codegen.gradle.GraphqlCodegenGradlePlugin'
         }
