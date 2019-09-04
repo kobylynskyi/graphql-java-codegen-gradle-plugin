@@ -43,5 +43,5 @@ pluginBundle {
     website = 'https://github.com/kobylynskyi/graphql-java-codegen-gradle-plugin'
     vcsUrl = 'https://github.com/kobylynskyi/graphql-java-codegen-gradle-plugin'
     description = 'Gradle plugin for GraphQL Java code generation'
-    tags = ['graphql-java', 'graphql-codegen-plugin']
+    tags = ['graphql', 'graphql-java', 'graphql-java-codegen', 'graphql-codegen']
 }
