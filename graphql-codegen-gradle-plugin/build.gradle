@@ -21,7 +21,7 @@ group = "com.kobylynskyi.graphql.codegen"
 dependencies {
     compile gradleApi()
 
-    compile 'io.github.kobylynskyi:graphl-java-codegen:1.0'
+    compile 'io.github.kobylynskyi:graphql-java-codegen:1.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
