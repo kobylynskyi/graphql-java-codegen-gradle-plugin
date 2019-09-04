@@ -1,6 +1,6 @@
 # GraphQL Codegen Gradle plugin #
 
-[![Build Status](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/kobylynskyi/graphql/codegen/graphql-codegen-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/com.kobylynskyi.graphql.codegen)
+[![Build Status](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/io/github/kobylynskyi/graphql/codegen/graphql-java-codegen-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/io.github.kobylynskyi.graphql.codegen)
 [![Build Status](https://travis-ci.com/kobylynskyi/graphql-java-codegen-gradle-plugin.svg?branch=master)](https://travis-ci.com/kobylynskyi/graphql-java-codegen-gradle-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -17,7 +17,7 @@ This Gradle plugin is able to generate the following classes based on your Graph
 ### Plugin Setup
 
     plugins {
-        id "com.kobylynskyi.graphql.codegen" version "1.0"
+        id "io.github.kobylynskyi.graphql.codegen" version "1.0"
     }
 
 Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
@@ -29,7 +29,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         }
       }
       dependencies {
-        classpath "com.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.0"
+        classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.0"
       }
     }
 
@@ -44,6 +44,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         customTypesMapping = [
             DateTime: "org.joda.time.DateTime"
         ]
+        modelNameSuffix = "TO"
     }
 ### Additional Configurations
 
