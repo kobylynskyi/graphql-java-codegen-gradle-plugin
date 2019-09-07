@@ -11,4 +11,4 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  - ./gradlew build -Dorg.gradle.jvmargs="-Xmx1000m -XX:MaxPermSize=512m
+  - ./gradlew build -Dorg.gradle.jvmargs="-Xmx1000m -XX:MaxPermSize=512m"
