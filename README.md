@@ -17,7 +17,7 @@ This Gradle plugin is able to generate the following classes based on your Graph
 ### Plugin Setup
 
     plugins {
-      id "io.github.kobylynskyi.graphql.codegen" version "1.0"
+      id "io.github.kobylynskyi.graphql.codegen" version "1.1"
     }
 
 Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
@@ -29,7 +29,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         }
       }
       dependencies {
-        classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.0"
+        classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.1"
       }
     }
     
@@ -45,6 +45,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         packageName = "com.example.graphql.model"
         customTypesMapping = [
             DateTime: "org.joda.time.DateTime"
+            Price.amount: "java.math.BigDecimal"
         ]
         modelNameSuffix = "TO"
     }
@@ -67,7 +68,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 | graphqlSchemaPaths      | List(String)       | None          | GraphQL schema locations. You can supply multiple paths to GraphQL schemas. |
 | packageName             | String             | Empty         | Java package for generated classes. |
 | outputDir               | String             | None          | The output target directory into which code will be generated. |
-| customTypesMapping      | Map(String,String) | Empty         | Map of (GraphQL Schema Type) to (Java Type). Can be used to supply custom mappings for scalars. |
+| customTypesMapping      | Map(String,String) | Empty         | Can be used to supply custom mappings for scalars. <br/> Supports:<br/> * Map of (GraphqlObjectName.fieldName) to (JavaType) <br/> * Map of (GraphqlType) to (JavaType) |
 | modelNamePrefix         | String             | Empty         | Sets the prefix for GraphQL model classes (type, input, interface, enum, union). |
 | modelNameSuffix         | String             | Empty         | Sets the suffix for GraphQL model classes (type, input, interface, enum, union). |
 | apiPackage              | String             | Empty         | Java package for generated api classes (Query, Mutation, Subscription). |
