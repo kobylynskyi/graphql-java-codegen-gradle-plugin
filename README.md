@@ -1,7 +1,7 @@
 # GraphQL Codegen Gradle plugin #
 
-[![Build Status](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/io/github/kobylynskyi/graphql/codegen/graphql-codegen-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/io.github.kobylynskyi.graphql.codegen)
-[![Build Status](https://travis-ci.com/kobylynskyi/graphql-java-codegen-gradle-plugin.svg?branch=master)](https://travis-ci.com/kobylynskyi/graphql-java-codegen-gradle-plugin)
+[![CircleCI](https://circleci.com/gh/kobylynskyi/graphql-java-codegen-gradle-plugin/tree/master.svg?style=svg)](https://circleci.com/gh/kobylynskyi/graphql-java-codegen-gradle-plugin/tree/master)
+[![Gradle Plugins](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/io/github/kobylynskyi/graphql/codegen/graphql-codegen-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/io.github.kobylynskyi.graphql.codegen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This document describes the gradle plugin for GraphQL Generator.
