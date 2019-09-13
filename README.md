@@ -58,6 +58,7 @@ build.gradle.kts:
         graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls".toString())
         outputDir = File("$buildDir/generated/graphql")
         packageName = "com.example.graphql.model"
+        customTypesMapping = mutableMapOf(Pair("EpochMillis", "java.time.LocalDateTime"))
     }
     sourceSets {
         getByName("main").java.srcDirs("$buildDir/generated/graphql")
