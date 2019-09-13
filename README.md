@@ -37,7 +37,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 
 ### Plugin Configuration
 
-build.gradle
+build.gradle:
 
     graphqlCodegen {
         graphqlSchemaPaths = [
@@ -52,7 +52,7 @@ build.gradle
         modelNameSuffix = "TO"
     }
 
-build.gradle.kts
+build.gradle.kts:
 
     tasks.named<GraphqlCodegenGradleTask>("graphqlCodegen") {
         graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls".toString())
@@ -76,7 +76,7 @@ build.gradle:
    sourceSets.main.java.srcDir "$buildDir/generated"
    ```
 
-build.gradle.kts
+build.gradle.kts:
 
     val check: DefaultTask by tasks
     val graphqlCodegen: DefaultTask by tasks
