@@ -37,7 +37,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 
 ### Plugin Configuration
 
-build.gradle:
+#### build.gradle:
 
     graphqlCodegen {
         graphqlSchemaPaths = [
@@ -51,8 +51,14 @@ build.gradle:
         ]
         modelNameSuffix = "TO"
     }
+    
+    // Automatically generate GraphQL code on project build:
+    compileJava.dependsOn 'graphqlCodegen'
+    
+    // Add generated sources to your project source sets:
+    sourceSets.main.java.srcDir "$buildDir/generated"
 
-build.gradle.kts:
+#### build.gradle.kts:
 
     tasks.named<GraphqlCodegenGradleTask>("graphqlCodegen") {
         graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls".toString())
@@ -60,28 +66,16 @@ build.gradle.kts:
         packageName = "com.example.graphql.model"
         customTypesMapping = mutableMapOf(Pair("EpochMillis", "java.time.LocalDateTime"))
     }
+    
+    // Automatically generate GraphQL code on project build:
     sourceSets {
         getByName("main").java.srcDirs("$buildDir/generated/graphql")
     }
     
-### Additional Configurations
-
-build.gradle:
-
-* Automatically generate GraphQL code on project build:
-   ```
-   compileJava.dependsOn 'graphqlCodegen'
-   ```
-* Add generated sources to your project source sets:
-   ```
-   sourceSets.main.java.srcDir "$buildDir/generated"
-   ```
-
-build.gradle.kts:
-
+    // Add generated sources to your project source sets:
     val check: DefaultTask by tasks
     val graphqlCodegen: DefaultTask by tasks
-    check.dependsOn(graphqlCodegen)
+    check.dependsOn(graphqlCodegen)    
 
 
 #### Plugin Options
