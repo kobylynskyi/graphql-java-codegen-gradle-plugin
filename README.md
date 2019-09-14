@@ -37,6 +37,8 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 
 ### Plugin Configuration
 
+build.gradle:
+
     graphqlCodegen {
         graphqlSchemaPaths = [
             "$projectDir/src/main/resources/schema.graphqls".toString()
@@ -49,7 +51,22 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         ]
         modelNameSuffix = "TO"
     }
+
+build.gradle.kts:
+
+    tasks.named<GraphqlCodegenGradleTask>("graphqlCodegen") {
+        graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls".toString())
+        outputDir = File("$buildDir/generated/graphql")
+        packageName = "com.example.graphql.model"
+        customTypesMapping = mutableMapOf(Pair("EpochMillis", "java.time.LocalDateTime"))
+    }
+    sourceSets {
+        getByName("main").java.srcDirs("$buildDir/generated/graphql")
+    }
+    
 ### Additional Configurations
+
+build.gradle:
 
 * Automatically generate GraphQL code on project build:
    ```
@@ -59,6 +76,12 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
    ```
    sourceSets.main.java.srcDir "$buildDir/generated"
    ```
+
+build.gradle.kts:
+
+    val check: DefaultTask by tasks
+    val graphqlCodegen: DefaultTask by tasks
+    check.dependsOn(graphqlCodegen)
 
 
 #### Plugin Options
@@ -81,5 +104,11 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 
 
 ### Inspired by
+
 [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
+
+### Convert Java classes to Kotlin classes
+
+Navigate in IntelijIdea to the `./build/generated/graphql/` folder and press `Cmd+Alt+Shift+K`
+Access to classes from your code as normal Kotlin classes.
 
