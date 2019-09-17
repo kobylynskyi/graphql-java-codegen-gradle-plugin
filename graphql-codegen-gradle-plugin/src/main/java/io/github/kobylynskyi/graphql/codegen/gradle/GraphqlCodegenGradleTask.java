@@ -23,12 +23,14 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private List<String> graphqlSchemaPaths;
     private File outputDir;
     private Map<String, String> customTypesMapping = new HashMap<>();
+    private Map<String, String> customAnnotationsMapping = new HashMap<>();
     private String packageName;
     private String apiPackageName;
     private String modelPackageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
     private Boolean generateApis = true;
+    private String modelValidationAnnotation;
 
     @TaskAction
     public void generate() throws Exception {
@@ -40,6 +42,8 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         mappingConfig.setApiPackageName(apiPackageName);
         mappingConfig.setModelPackageName(modelPackageName);
         mappingConfig.setGenerateApis(generateApis);
+        mappingConfig.setModelValidationAnnotation(modelValidationAnnotation);
+        mappingConfig.setCustomAnnotationsMapping(customAnnotationsMapping);
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
 
@@ -129,5 +133,25 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
 
     public void setGenerateApis(Boolean generateApis) {
         this.generateApis = generateApis;
+    }
+
+    @Input
+    @Optional
+    public String getModelValidationAnnotation() {
+        return modelValidationAnnotation;
+    }
+
+    public void setModelValidationAnnotation(String modelValidationAnnotation) {
+        this.modelValidationAnnotation = modelValidationAnnotation;
+    }
+
+    @Input
+    @Optional
+    public Map<String, String> getCustomAnnotationsMapping() {
+        return customAnnotationsMapping;
+    }
+
+    public void setCustomAnnotationsMapping(Map<String, String> customAnnotationsMapping) {
+        this.customAnnotationsMapping = customAnnotationsMapping;
     }
 }
