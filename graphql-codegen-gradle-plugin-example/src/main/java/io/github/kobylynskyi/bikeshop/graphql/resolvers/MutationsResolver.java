@@ -1,12 +1,12 @@
 package io.github.kobylynskyi.bikeshop.graphql.resolvers;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import io.github.kobylynskyi.bikeshop.graphql.api.Mutation;
 import io.github.kobylynskyi.bikeshop.graphql.mappers.BikeMapper;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeInputTO;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeTO;
 import io.github.kobylynskyi.bikeshop.model.Bike;
 import io.github.kobylynskyi.bikeshop.service.BikeService;
-import com.kobylynskyi.graphql.bikeshop.BikeInputTO;
-import com.kobylynskyi.graphql.bikeshop.BikeTO;
-import com.kobylynskyi.graphql.bikeshop.Mutation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

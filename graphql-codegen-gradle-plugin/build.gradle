@@ -8,6 +8,7 @@ repositories {
         url 'https://repo.gradle.org/gradle/libs-releases-local'
     }
     mavenCentral()
+    mavenLocal()
     jcenter()
 }
 
@@ -16,13 +17,13 @@ apply plugin: "idea"
 apply plugin: "maven-publish"
 
 group = "io.github.kobylynskyi"
-version = "1.1"
+version = "1.2-SNAPSHOT"
 description = "Provides a task for generating Java code based on GraphQL schema"
 
 dependencies {
     compile gradleApi()
 
-    compile 'io.github.kobylynskyi:graphql-java-codegen:1.1'
+    compile 'io.github.kobylynskyi:graphql-java-codegen:1.2-SNAPSHOT'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'

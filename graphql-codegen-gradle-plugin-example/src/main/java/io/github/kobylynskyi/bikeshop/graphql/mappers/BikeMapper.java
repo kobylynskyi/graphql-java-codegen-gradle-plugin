@@ -2,9 +2,9 @@ package io.github.kobylynskyi.bikeshop.graphql.mappers;
 
 import io.github.kobylynskyi.bikeshop.model.Bike;
 import io.github.kobylynskyi.bikeshop.model.BikeType;
-import com.kobylynskyi.graphql.bikeshop.BikeInputTO;
-import com.kobylynskyi.graphql.bikeshop.BikeTO;
-import com.kobylynskyi.graphql.bikeshop.BikeTypeTO;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeInputTO;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeTO;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeTypeTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

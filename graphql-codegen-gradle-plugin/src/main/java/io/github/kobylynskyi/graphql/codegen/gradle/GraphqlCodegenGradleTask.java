@@ -22,22 +22,24 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
 
     private List<String> graphqlSchemaPaths;
     private File outputDir;
-    private Map<String, String> customTypesMapping;
+    private Map<String, String> customTypesMapping = new HashMap<>();
     private String packageName;
     private String apiPackageName;
     private String modelPackageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
+    private Boolean generateApis = true;
 
     @TaskAction
     public void generate() throws Exception {
         MappingConfig mappingConfig = new MappingConfig();
         mappingConfig.setPackageName(packageName);
-        mappingConfig.setCustomTypesMapping(customTypesMapping != null ? customTypesMapping : new HashMap<>());
+        mappingConfig.setCustomTypesMapping(customTypesMapping);
         mappingConfig.setModelNamePrefix(modelNamePrefix);
         mappingConfig.setModelNameSuffix(modelNameSuffix);
         mappingConfig.setApiPackageName(apiPackageName);
         mappingConfig.setModelPackageName(modelPackageName);
+        mappingConfig.setGenerateApis(generateApis);
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
 
@@ -119,4 +121,13 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         this.modelPackageName = modelPackageName;
     }
 
+    @Input
+    @Optional
+    public Boolean getGenerateApis() {
+        return generateApis;
+    }
+
+    public void setGenerateApis(Boolean generateApis) {
+        this.generateApis = generateApis;
+    }
 }

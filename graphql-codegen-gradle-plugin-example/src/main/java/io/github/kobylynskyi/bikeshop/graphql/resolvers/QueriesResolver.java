@@ -1,12 +1,12 @@
 package io.github.kobylynskyi.bikeshop.graphql.resolvers;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import io.github.kobylynskyi.bikeshop.graphql.api.Query;
 import io.github.kobylynskyi.bikeshop.graphql.mappers.BikeMapper;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeTO;
+import io.github.kobylynskyi.bikeshop.graphql.model.BikeTypeTO;
 import io.github.kobylynskyi.bikeshop.model.BikeType;
 import io.github.kobylynskyi.bikeshop.service.BikeService;
-import com.kobylynskyi.graphql.bikeshop.BikeTO;
-import com.kobylynskyi.graphql.bikeshop.BikeTypeTO;
-import com.kobylynskyi.graphql.bikeshop.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
