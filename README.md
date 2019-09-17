@@ -17,7 +17,7 @@ This Gradle plugin is able to generate the following classes based on your Graph
 ### Plugin Setup
 
     plugins {
-      id "io.github.kobylynskyi.graphql.codegen" version "1.2"
+      id "io.github.kobylynskyi.graphql.codegen" version "1.2.1"
     }
 
 Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
@@ -29,7 +29,7 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
         }
       }
       dependencies {
-        classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.2"
+        classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.2.1"
       }
     }
     
