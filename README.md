@@ -16,71 +16,78 @@ This Gradle plugin is able to generate the following classes based on your Graph
 
 ### Plugin Setup
 
-    plugins {
-      id "io.github.kobylynskyi.graphql.codegen" version "1.2.2"
-    }
+```groovy
+plugins {
+  id "io.github.kobylynskyi.graphql.codegen" version "1.2.2"
+}
+```
 
 Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
 
-    buildscript {
-      repositories {
-        maven {
-          url "https://plugins.gradle.org/m2/"
-        }
-      }
-      dependencies {
-        classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.2.2"
-      }
+```groovy
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
     }
-    
-    apply plugin: "io.github.kobylynskyi.graphql.codegen"
+  }
+  dependencies {
+    classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.2.2"
+  }
+}
+
+apply plugin: "io.github.kobylynskyi.graphql.codegen"
+```
 
 ### Plugin Configuration
 
 #### build.gradle:
 
-    graphqlCodegen {
-        graphqlSchemaPaths = [
-            "$projectDir/src/main/resources/schema.graphqls".toString()
-        ]
-        outputDir = "$buildDir/generated/graphql"
-        packageName = "com.example.graphql.model"
-        customTypesMapping = [
-            DateTime: "org.joda.time.DateTime"
-            Price.amount: "java.math.BigDecimal"
-        ]
-        customAnnotationsMapping = [
-            DateTime: "com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.example.json.EpochMillisScalarDeserializer.class"
-        ]
-        modelNameSuffix = "TO"
-    }
-    
-    // Automatically generate GraphQL code on project build:
-    compileJava.dependsOn 'graphqlCodegen'
-    
-    // Add generated sources to your project source sets:
-    sourceSets.main.java.srcDir "$buildDir/generated"
+```groovy
+graphqlCodegen {
+    graphqlSchemaPaths = [
+        "$projectDir/src/main/resources/schema.graphqls".toString()
+    ]
+    outputDir = "$buildDir/generated/graphql"
+    packageName = "com.example.graphql.model"
+    customTypesMapping = [
+        DateTime: "org.joda.time.DateTime"
+        Price.amount: "java.math.BigDecimal"
+    ]
+    customAnnotationsMapping = [
+        DateTime: "com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.example.json.EpochMillisScalarDeserializer.class"
+    ]
+    modelNameSuffix = "TO"
+}
+
+// Automatically generate GraphQL code on project build:
+compileJava.dependsOn 'graphqlCodegen'
+
+// Add generated sources to your project source sets:
+sourceSets.main.java.srcDir "$buildDir/generated"
+```
 
 #### build.gradle.kts:
 
-    tasks.named<GraphqlCodegenGradleTask>("graphqlCodegen") {
-        graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls".toString())
-        outputDir = File("$buildDir/generated/graphql")
-        packageName = "com.example.graphql.model"
-        customTypesMapping = mutableMapOf(Pair("EpochMillis", "java.time.LocalDateTime"))
-        customAnnotationsMapping = mutableMapOf(Pair("EpochMillis", "com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.example.json.EpochMillisScalarDeserializer.class"))
-    }
-    
-    // Automatically generate GraphQL code on project build:
-    sourceSets {
-        getByName("main").java.srcDirs("$buildDir/generated/graphql")
-    }
-    
-    // Add generated sources to your project source sets:
-    val check: DefaultTask by tasks
-    val graphqlCodegen: DefaultTask by tasks
-    check.dependsOn(graphqlCodegen)    
+```groovy
+tasks.named<GraphqlCodegenGradleTask>("graphqlCodegen") {
+    graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls".toString())
+    outputDir = File("$buildDir/generated/graphql")
+    packageName = "com.example.graphql.model"
+    customTypesMapping = mutableMapOf(Pair("EpochMillis", "java.time.LocalDateTime"))
+    customAnnotationsMapping = mutableMapOf(Pair("EpochMillis", "com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.example.json.EpochMillisScalarDeserializer.class"))
+}
 
+// Automatically generate GraphQL code on project build:
+sourceSets {
+    getByName("main").java.srcDirs("$buildDir/generated/graphql")
+}
+
+// Add generated sources to your project source sets:
+val check: DefaultTask by tasks
+val graphqlCodegen: DefaultTask by tasks
+check.dependsOn(graphqlCodegen)    
+```
 
 #### Plugin Options
 
@@ -99,6 +106,35 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 | modelNameSuffix           | String             | Empty                                 | Sets the suffix for GraphQL model classes (type, input, interface, enum, union). |
 
 
+### Different configuration for each graphql schema
+
+If you want to have different configuration for different `.graphqls` files (e.g.: different javaPackage, outputDir, etc.), then you will need to create separate gradle tasks for each set of schemas. E.g.:
+
+```groovy
+task graphqlCodegenService1(type: GraphqlCodegenGradleTask) {
+    graphqlSchemaPaths = ["$projectDir/src/main/resources/schema1.graphqls".toString()]
+    outputDir = new File("$buildDir/generated/example1")
+}
+
+task graphqlCodegenService2(type: GraphqlCodegenGradleTask) {
+    graphqlSchemaPaths = ["$projectDir/src/main/resources/schema2.graphqls".toString()]
+    outputDir = new File("$buildDir/generated/example2")
+}
+```
+
+Later on you can call each task separately or together:
+
+* `gradlew clean graphqlCodegenService1 build`
+* `gradlew clean graphqlCodegenService2 build`
+* `gradlew clean graphqlCodegenService1 graphqlCodegenService2 build`
+
+
+### Convert generated Java classes to Kotlin classes
+
+Navigate in IntelijIdea to the `./build/generated/graphql/` folder and press `Cmd+Alt+Shift+K`
+Access to classes from your code as normal Kotlin classes.
+
+
 ### Example
 
 [graphql-codegen-gradle-plugin-example](graphql-codegen-gradle-plugin-example)
@@ -107,9 +143,4 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 ### Inspired by
 
 [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
-
-### Convert Java classes to Kotlin classes
-
-Navigate in IntelijIdea to the `./build/generated/graphql/` folder and press `Cmd+Alt+Shift+K`
-Access to classes from your code as normal Kotlin classes.
 
