@@ -31,6 +31,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private String modelNameSuffix;
     private Boolean generateApis = true;
     private String modelValidationAnnotation;
+    private Boolean generateEqualsAndHashCode = false;
 
     @TaskAction
     public void generate() throws Exception {
@@ -44,6 +45,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         mappingConfig.setGenerateApis(generateApis);
         mappingConfig.setModelValidationAnnotation(modelValidationAnnotation);
         mappingConfig.setCustomAnnotationsMapping(customAnnotationsMapping);
+        mappingConfig.setGenerateEqualsAndHashCode(generateEqualsAndHashCode);
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
     }
 
@@ -153,5 +155,15 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
 
     public void setCustomAnnotationsMapping(Map<String, String> customAnnotationsMapping) {
         this.customAnnotationsMapping = customAnnotationsMapping;
+    }
+
+    @Input
+    @Optional
+    public boolean getGenerateEqualsAndHashCode() {
+      return generateEqualsAndHashCode;
+    }
+
+    public void setGenerateEqualsAndHashCode(Boolean generateEqualsAndHashCode) {
+      this.generateEqualsAndHashCode = generateEqualsAndHashCode;
     }
 }
