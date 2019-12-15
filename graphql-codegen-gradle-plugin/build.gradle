@@ -17,13 +17,13 @@ apply plugin: "idea"
 apply plugin: "maven-publish"
 
 group = "io.github.kobylynskyi"
-version = "1.2.3"
+version = "1.3.0"
 description = "Provides a task for generating Java code based on GraphQL schema"
 
 dependencies {
     compile gradleApi()
 
-    compile 'io.github.kobylynskyi:graphql-java-codegen:1.2.3'
+    compile 'io.github.kobylynskyi:graphql-java-codegen:1.3.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'

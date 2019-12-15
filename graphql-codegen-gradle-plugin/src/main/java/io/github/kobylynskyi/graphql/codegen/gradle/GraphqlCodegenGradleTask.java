@@ -2,6 +2,8 @@ package io.github.kobylynskyi.graphql.codegen.gradle;
 
 import com.kobylynskyi.graphql.codegen.GraphqlCodegen;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.supplier.JsonMappingConfigSupplier;
+import com.kobylynskyi.graphql.codegen.supplier.MappingConfigSupplier;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
@@ -29,9 +31,12 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private String modelPackageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
+    private String subscriptionReturnType;
     private Boolean generateApis = true;
     private String modelValidationAnnotation;
     private Boolean generateEqualsAndHashCode = false;
+    private Boolean generateToString = false;
+    private String jsonConfigurationFile;
 
     @TaskAction
     public void generate() throws Exception {
@@ -44,9 +49,19 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         mappingConfig.setModelPackageName(modelPackageName);
         mappingConfig.setGenerateApis(generateApis);
         mappingConfig.setModelValidationAnnotation(modelValidationAnnotation);
+        mappingConfig.setSubscriptionReturnType(subscriptionReturnType);
         mappingConfig.setCustomAnnotationsMapping(customAnnotationsMapping);
         mappingConfig.setGenerateEqualsAndHashCode(generateEqualsAndHashCode);
-        new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig).generate();
+        mappingConfig.setGenerateToString(generateToString);
+
+        new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig, buildJsonSupplier()).generate();
+    }
+
+    private MappingConfigSupplier buildJsonSupplier() {
+        if (jsonConfigurationFile != null && !jsonConfigurationFile.isEmpty()) {
+            return new JsonMappingConfigSupplier(jsonConfigurationFile);
+        }
+        return null;
     }
 
     @Input
@@ -160,10 +175,41 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     @Input
     @Optional
     public boolean getGenerateEqualsAndHashCode() {
-      return generateEqualsAndHashCode;
+        return generateEqualsAndHashCode;
     }
 
     public void setGenerateEqualsAndHashCode(Boolean generateEqualsAndHashCode) {
-      this.generateEqualsAndHashCode = generateEqualsAndHashCode;
+        this.generateEqualsAndHashCode = generateEqualsAndHashCode;
     }
+
+    @Input
+    @Optional
+    public Boolean getGenerateToString() {
+        return generateToString;
+    }
+
+    public void setGenerateToString(Boolean generateToString) {
+        this.generateToString = generateToString;
+    }
+
+    @Input
+    @Optional
+    public String getSubscriptionReturnType() {
+        return subscriptionReturnType;
+    }
+
+    public void setSubscriptionReturnType(String subscriptionReturnType) {
+        this.subscriptionReturnType = subscriptionReturnType;
+    }
+
+    @Input
+    @Optional
+    public String getJsonConfigurationFile() {
+        return jsonConfigurationFile;
+    }
+
+    public void setJsonConfigurationFile(String jsonConfigurationFile) {
+        this.jsonConfigurationFile = jsonConfigurationFile;
+    }
+
 }
