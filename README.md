@@ -18,7 +18,7 @@ This Gradle plugin is able to generate the following classes based on your Graph
 
 ```groovy
 plugins {
-  id "io.github.kobylynskyi.graphql.codegen" version "1.4.0"
+  id "io.github.kobylynskyi.graphql.codegen" version "1.4.1"
 }
 ```
 
@@ -32,7 +32,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.4.0"
+    classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:1.4.1"
   }
 }
 
@@ -51,7 +51,7 @@ graphqlCodegen {
     outputDir = "$buildDir/generated/graphql"
     packageName = "com.example.graphql.model"
     customTypesMapping = [
-        DateTime: "org.joda.time.DateTime"
+        DateTime: "org.joda.time.DateTime",
         Price.amount: "java.math.BigDecimal"
     ]
     customAnnotationsMapping = [
@@ -107,6 +107,7 @@ check.dependsOn(graphqlCodegen)
 | subscriptionReturnType    | String             | Empty                                     | Return type for subscription methods. For example: `org.reactivestreams.Publisher`, `io.reactivex.Observable`, etc. |
 | generateEqualsAndHashCode | Boolean            | False                                     | Specifies whether generated model classes should have equals and hashCode methods defined. |
 | generateToString          | Boolean            | False                                     | Specifies whether generated model classes should have toString method defined. |
+| generateAsyncApi          | Boolean            | False                                     | If true, then wrap type into `java.util.concurrent.CompletableFuture` or `subscriptionReturnType` |
 | jsonConfigurationFile     | String             | Empty                                     | Path to an external mapping configuration. |
 
 #### External mapping configuration

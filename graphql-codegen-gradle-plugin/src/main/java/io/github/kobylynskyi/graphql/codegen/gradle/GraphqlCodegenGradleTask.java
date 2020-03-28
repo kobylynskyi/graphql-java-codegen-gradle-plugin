@@ -36,6 +36,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
     private String modelValidationAnnotation;
     private Boolean generateEqualsAndHashCode = false;
     private Boolean generateToString = false;
+    private Boolean generateAsyncApi = false;
     private String jsonConfigurationFile;
 
     @TaskAction
@@ -53,6 +54,7 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
         mappingConfig.setCustomAnnotationsMapping(customAnnotationsMapping);
         mappingConfig.setGenerateEqualsAndHashCode(generateEqualsAndHashCode);
         mappingConfig.setGenerateToString(generateToString);
+        mappingConfig.setGenerateAsyncApi(generateAsyncApi);
 
         new GraphqlCodegen(graphqlSchemaPaths, outputDir, mappingConfig, buildJsonSupplier()).generate();
     }
@@ -200,6 +202,16 @@ public class GraphqlCodegenGradleTask extends DefaultTask {
 
     public void setSubscriptionReturnType(String subscriptionReturnType) {
         this.subscriptionReturnType = subscriptionReturnType;
+    }
+
+    @Input
+    @Optional
+    public Boolean getGenerateAsyncApi() {
+        return generateAsyncApi;
+    }
+
+    public void setGenerateAsyncApi(Boolean generateAsyncApi) {
+        this.generateAsyncApi = generateAsyncApi;
     }
 
     @Input
